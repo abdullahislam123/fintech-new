@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=Outfit:wght@200;300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg-dark: #050c11;
+  --bg-surface: #0a0f14;
+  --accent-teal: #00f5d4;
+  --accent-teal-soft: rgba(0, 245, 212, 0.1);
+  --accent-teal-glow: rgba(0, 245, 212, 0.2);
+  --accent-indigo: #8247e5;
+  --accent-indigo-soft: rgba(130, 71, 229, 0.1);
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+  --glass-bg: rgba(255, 255, 255, 0.02);
+  --glass-border: rgba(255, 255, 255, 0.05);
+  --glass-glow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  --card-radius: 2rem;
+  --pill-radius: 9999px;
+  --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  min-height: 100vh;
+  letter-spacing: -0.01em;
+}
+
+h1, h2, h3, h4, .font-heading {
+  font-family: 'Outfit', sans-serif;
+  letter-spacing: -0.03em;
+}
+
+/* Glassmorphism Evolution */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-glow);
+  border-radius: var(--card-radius);
+  transition: var(--transition-smooth);
+}
+
+.glass-card:hover {
+  border-color: rgba(0, 245, 212, 0.15);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+}
+
+/* Gradients & Glows */
+.teal-gradient {
+  background: linear-gradient(135deg, #00f5d4 0%, #00a896 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bg-teal-gradient {
+  background: linear-gradient(135deg, #00f5d4 0%, #00a896 100%);
+}
+
+.teal-glow {
+  box-shadow: 0 0 50px rgba(0, 245, 212, 0.25);
+}
+
+.outer-glow-teal {
+  position: relative;
+}
+
+.outer-glow-teal::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  background: var(--accent-teal);
+  filter: blur(100px);
+  opacity: 0.1;
+  z-index: -1;
+}
+
+/* Buttons Evolution */
+.btn-primary {
+  background: var(--accent-teal);
+  color: #050c11;
+  border: none;
+  padding: 1rem 2.5rem;
+  border-radius: var(--pill-radius);
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: var(--transition-smooth);
+}
+
+.btn-primary:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(0, 245, 212, 0.4);
+}
+
+/* Capsule Badges */
+.capsule-badge {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--pill-radius);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-teal);
+}
+
+/* Animations */
+@keyframes portal-glow {
+  0% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.1); }
+  100% { opacity: 0.3; transform: scale(1); }
+}
+
+.animate-portal {
+  animation: portal-glow 10s ease-in-out infinite;
+}
