@@ -31,33 +31,34 @@ const Footer = () => {
     {
       title: 'DEVELOPERS',
       links: [
-        { name: 'Documentation', path: '#' },
-        { name: 'VMI API', path: '#' },
-        { name: 'Security Audits', path: '#' },
-        { name: 'Bug Bounty', path: '#' },
-        { name: 'Github', path: '#' },
-        { name: 'Open Source', path: '#' }
+        { name: 'Documentation', path: '/docs' },
+        { name: 'VMI API', path: '/api' },
+        { name: 'Security Audits', path: '/audits' },
+        { name: 'Bug Bounty', path: '/bounty' },
+        { name: 'Github', path: '/docs' },
+        { name: 'Open Source', path: '/open-source' }
       ]
     },
     {
       title: 'RESOURCES',
       links: [
-        { name: 'Help Center', path: '#' },
-        { name: 'Community', path: '#' },
-        { name: 'Governance', path: '#' },
-        { name: 'Tokenomics', path: '#' },
-        { name: 'Blog', path: '#' },
-        { name: 'Brand Assets', path: '#' }
+        { name: 'Help Center', path: '/faq' },
+        { name: 'Support', path: '/support' },
+        { name: 'Careers', path: '/careers' },
+        { name: 'Community', path: '/community' },
+        { name: 'Governance', path: '/governance' },
+        { name: 'Blog', path: '/blog' },
+        { name: 'Brand Assets', path: '/assets' }
       ]
     },
     {
       title: 'LEGAL',
       links: [
-        { name: 'Privacy Policy', path: '#' },
-        { name: 'Terms of Service', path: '#' },
-        { name: 'Cookie Policy', path: '#' },
-        { name: 'Disclaimer', path: '#' },
-        { name: 'Compliance', path: '#' }
+        { name: 'Privacy Policy', path: '/policy' },
+        { name: 'Terms of Service', path: '/terms' },
+        { name: 'Cookie Policy', path: '/cookies' },
+        { name: 'Disclaimer', path: '/disclaimer' },
+        { name: 'Compliance', path: '/compliance' }
       ]
     }
   ];

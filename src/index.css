@@ -153,3 +153,17 @@ h1, h2, h3, h4, .font-heading {
 .animate-portal {
   animation: portal-glow 10s ease-in-out infinite;
 }
+
+/* Base Container */
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 5%;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 2rem;
+  }
+}

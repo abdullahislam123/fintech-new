@@ -14,93 +14,30 @@ import {
   FaXmark
 } from 'react-icons/fa6';
 import AnimatedBackground from '../components/AnimatedBackground';
-import { fetchCoinPrices } from '../services/coinService';
+
 import Footer from '../components/Footer';
+import { useWallet } from '../context/WalletContext';
 
 const Dashboard = () => {
-  const [assets, setAssets] = useState([
-    { name: 'Bitcoin', symbol: 'BTC', balance: '0.045', value: '0', change: '0', icon: '₿', color: '#F7931A' },
-    { name: 'Ethereum', symbol: 'ETH', balance: '1.245', value: '0', change: '0', icon: 'Ξ', color: '#627EEA' },
-    { name: 'Solana', symbol: 'SOL', balance: '142.5', value: '0', change: '0', icon: '◎', color: '#14F195' },
-    { name: 'USD Coin', symbol: 'USDC', balance: '560.00', value: '0', change: '0', icon: '$', color: '#2775CA' },
-    { name: 'Arbitrum', symbol: 'ARB', balance: '850', value: '0', change: '0', icon: 'A', color: '#28A0F0' },
-  ]);
-  const [loading, setLoading] = useState(true);
+  const { cardBalance, cryptoAssets, loadingAssets } = useWallet();
   const [totalBalance, setTotalBalance] = useState(0);
-  const [coinPrices, setCoinPrices] = useState(null);
   
   // Modal states
   const [modalType, setModalType] = useState(null);
   const [selectedAsset, setSelectedAsset] = useState('ETH');
   const [txAmount, setTxAmount] = useState('');
 
-  const recalculatePortfolio = (currentAssets, prices) => {
-    if (!prices) return;
-    let total = 0;
-    const updatedAssets = currentAssets.map(asset => {
-      const coinData = prices[asset.symbol];
-      if(!coinData) return asset;
-      const strippedBalance = asset.balance.toString().replace(/,/g, '');
-      const usdValue = parseFloat(strippedBalance) * coinData.usd;
-      total += usdValue;
-      
-      return {
-        ...asset,
-        value: usdValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-        change: (coinData.change > 0 ? '+' : '') + coinData.change.toFixed(2) + '%'
-      };
-    });
-    setAssets(updatedAssets);
-    setTotalBalance(total);
-  };
-
-  const updatePrices = async () => {
-    setLoading(true);
-    const data = await fetchCoinPrices();
-    
-    if (data) {
-      setCoinPrices(data);
-      recalculatePortfolio(assets, data);
-    }
-    setLoading(false);
-  };
+  useEffect(() => {
+    const cryptoTotal = cryptoAssets.reduce((sum, asset) => sum + (asset.value || 0), 0);
+    setTotalBalance(cardBalance + cryptoTotal);
+  }, [cardBalance, cryptoAssets]);
 
   const handleTransaction = () => {
-    if (!txAmount || isNaN(txAmount)) return;
-    const amount = parseFloat(txAmount);
-    
-    const currentAssetObj = assets.find(a => a.symbol === selectedAsset);
-    const currentBalance = parseFloat(currentAssetObj.balance.toString().replace(/,/g, ''));
-    
-    if (modalType === 'withdraw' && amount > currentBalance) {
-      alert('Insufficient balance');
-      return;
-    }
-
-    const newAssets = assets.map(a => {
-        if (a.symbol === selectedAsset) {
-            const newObjBalance = modalType === 'deposit' ? currentBalance + amount : currentBalance - amount;
-            return {
-                ...a,
-                balance: newObjBalance.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 4 })
-            };
-        }
-        return a;
-    });
-
-    // Instant update
-    recalculatePortfolio(newAssets, coinPrices);
+    // For prototype purposes, transaction interactions will route to topup
     setModalType(null);
     setTxAmount('');
   };
 
-  useEffect(() => {
-    updatePrices();
-    // Cache closure requires we don't just use interval directly without refs, 
-    // but for simple demo, it's fine. We fetch every 2 minutes.
-    const interval = setInterval(updatePrices, 120000);
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <div className="dashboard-container" style={{ minHeight: '100vh', padding: '10rem 6rem 4rem', position: 'relative' }}>
@@ -115,7 +52,7 @@ const Dashboard = () => {
               animate={{ opacity: 1, x: 0 }}
               style={{ color: 'var(--text-secondary)', marginBottom: '1.25rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px', fontSize: '0.8125rem' }}
             >
-              Consolidated Protocol Balance
+              All your networks, all your assets
             </motion.p>
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
@@ -176,7 +113,6 @@ const Dashboard = () => {
              
              <motion.button 
                 whileHover={{ rotate: 180, background: 'rgba(0, 245, 212, 0.1)' }}
-                onClick={updatePrices}
                 style={{ 
                   background: 'rgba(255,255,255,0.03)', 
                   border: '1px solid var(--glass-border)', 
@@ -190,7 +126,7 @@ const Dashboard = () => {
                   justifyContent: 'center'
                 }}
               >
-                {loading ? <FaSpinner className="animate-spin" size={24} /> : <FaRotate size={24} />}
+                {loadingAssets ? <FaSpinner className="animate-spin" size={24} /> : <FaRotate size={24} />}
               </motion.button>
           </div>
         </div>
@@ -224,9 +160,9 @@ const Dashboard = () => {
         {/* Global Liquidity Tracking */}
         <section>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '3rem' }}>
-            <h2 className="font-heading" style={{ fontSize: '3rem', fontWeight: 900, letterSpacing: '-2px' }}>Asset Intelligence<span style={{ color: 'var(--accent-teal)' }}>.</span></h2>
+            <h2 className="font-heading" style={{ fontSize: '3rem', fontWeight: 900, letterSpacing: '-2px' }}>Portfolio Map<span style={{ color: 'var(--accent-teal)' }}>.</span></h2>
             <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center' }}>
-               {loading && <span style={{ color: 'var(--accent-teal)', fontSize: '0.875rem', fontWeight: 800, letterSpacing: '1px' }}>RECALCULATING LIQUIDITY...</span>}
+               {loadingAssets && <span style={{ color: 'var(--accent-teal)', fontSize: '0.875rem', fontWeight: 800, letterSpacing: '1px' }}>SYNCING LIVE LIQUIDITY...</span>}
                <button className="glass-card" style={{ padding: '0.75rem 2rem', borderRadius: 'var(--pill-radius)', color: 'white', fontWeight: 800, cursor: 'pointer', fontSize: '0.875rem' }}>Portfolio Map</button>
             </div>
           </div>
@@ -244,41 +180,27 @@ const Dashboard = () => {
               </thead>
               <tbody>
                 <AnimatePresence>
-                  {assets.map((asset, i) => (
+                  {cryptoAssets.map((asset, i) => (
                     <motion.tr 
                       key={asset.symbol}
                       initial={{ opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: i * 0.1 }}
+                      transition={{ delay: i * 0.05 }}
                       whileHover={{ background: 'rgba(255,255,255,0.015)' }}
-                      style={{ borderBottom: i === assets.length - 1 ? 'none' : '1px solid var(--glass-border)', transition: '0.3s' }}
+                      style={{ borderBottom: i === cryptoAssets.length - 1 ? 'none' : '1px solid var(--glass-border)', transition: '0.3s' }}
                     >
                       <td style={{ padding: '2rem', display: 'flex', alignItems: 'center', gap: '2rem' }}>
-                        <div style={{ 
-                          width: '56px', 
-                          height: '56px', 
-                          borderRadius: '16px', 
-                          display: 'flex', 
-                          alignItems: 'center', 
-                          justifyContent: 'center',
-                          fontWeight: 900,
-                          fontSize: '1.5rem',
-                          color: 'white',
-                          background: asset.color,
-                          boxShadow: `0 0 30px ${asset.color}33`
-                        }}>
-                          {asset.icon}
-                        </div>
+                        <img src={asset.iconUrl} alt={asset.symbol} style={{ width: '56px', height: '56px', borderRadius: '50%' }} />
                         <div>
                           <div style={{ fontWeight: 900, fontSize: '1.125rem', color: 'white', letterSpacing: '-0.5px' }}>{asset.name}</div>
-                          <div style={{ color: 'var(--text-muted)', fontSize: '0.8125rem', fontWeight: 800, letterSpacing: '1px' }}>{asset.symbol} PROTCOL</div>
+                          <div style={{ color: 'var(--text-muted)', fontSize: '0.8125rem', fontWeight: 800, letterSpacing: '1px' }}>{asset.symbol} PROTOCOL</div>
                         </div>
                       </td>
                       <td style={{ padding: '2rem', fontWeight: 800, color: 'white', fontSize: '1.1rem' }}>{asset.balance} <span style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>{asset.symbol}</span></td>
-                      <td style={{ padding: '2rem', fontWeight: 900, color: 'white', fontSize: '1.1rem' }}>${asset.value}</td>
+                      <td style={{ padding: '2rem', fontWeight: 900, color: 'white', fontSize: '1.1rem' }}>${asset.value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                       <td style={{ padding: '2rem' }}>
                         <span style={{ 
-                          color: asset.change.startsWith('+') ? 'var(--accent-teal)' : asset.change.startsWith('-') ? '#ff5555' : 'var(--text-muted)',
+                          color: asset.change.startsWith('-') ? '#ff5555' : 'var(--accent-teal)',
                           fontSize: '1.125rem',
                           fontWeight: 900,
                           display: 'flex',
@@ -286,8 +208,8 @@ const Dashboard = () => {
                           gap: '0.75rem',
                           letterSpacing: '-0.5px'
                         }}>
-                          {asset.change.startsWith('+') ? <FaArrowTrendUp size={18} /> : null}
-                          {asset.change === '0' ? '---' : asset.change}
+                          {!asset.change.startsWith('-') && <FaArrowTrendUp size={18} />}
+                          {asset.change}%
                         </span>
                       </td>
                       <td style={{ padding: '2rem', textAlign: 'right' }}>
@@ -349,14 +271,14 @@ const Dashboard = () => {
                   onChange={(e) => setSelectedAsset(e.target.value)}
                   style={{ width: '100%', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--glass-border)', color: 'white', padding: '1rem', borderRadius: '0.75rem', fontSize: '1rem', fontWeight: 800, outline: 'none', cursor: 'pointer' }}
                 >
-                  {assets.map(a => <option key={a.symbol} value={a.symbol} style={{ background: '#050C11' }}>{a.name} ({a.symbol})</option>)}
+                  {cryptoAssets.map(a => <option key={a.symbol} value={a.symbol} style={{ background: '#050C11' }}>{a.name} ({a.symbol})</option>)}
                 </select>
               </div>
 
               <div style={{ marginBottom: '2.5rem' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
                    <label style={{ color: 'var(--text-muted)', fontSize: '0.8125rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px' }}>Amount</label>
-                   {modalType === 'withdraw' && <span style={{ color: 'var(--accent-teal)', fontSize: '0.8125rem', fontWeight: 800, cursor: 'pointer' }} onClick={() => setTxAmount(assets.find(a => a.symbol === selectedAsset).balance.toString().replace(/,/g, ''))}>MAX</span>}
+                   {modalType === 'withdraw' && <span style={{ color: 'var(--accent-teal)', fontSize: '0.8125rem', fontWeight: 800, cursor: 'pointer' }} onClick={() => setTxAmount('0')}>MAX</span>}
                 </div>
                 <div style={{ position: 'relative' }}>
                   <input 

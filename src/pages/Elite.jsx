@@ -204,6 +204,88 @@ const policy = await Vaultora.createPolicy({
           </div>
         </div>
       </section>
+      
+      {/* Dynamic Extra Content Sections - Consistent with site expansion */}
+      <div style={{ paddingBottom: '8rem', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        
+        {/* Benefits Grid */}
+        <motion.div 
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          style={{ width: '100%', maxWidth: '1200px', marginTop: '10rem' }}
+        >
+          <h2 className="font-heading" style={{ fontSize: '3rem', marginBottom: '4rem', textAlign: 'center' }}>Institutional Benefits</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
+            {[
+              { icon: <FaShieldHalved />, title: 'Military-Grade Security', desc: 'Secure your assets with hardware-isolated enclaves and MPC-CMP technology.' },
+              { icon: <FaGlobe />, title: 'Global Compliance', desc: 'Fully licensed and regulated infrastructure built for institutional standards.' },
+              { icon: <FaBolt />, title: 'Edge Efficiency', desc: 'Execute complex financial logic with sub-millisecond latency on our node network.' },
+              { icon: <FaFingerprint />, title: 'Total Control', desc: 'Granular policy management and biometric verification for every transaction.' }
+            ].map((feature, i) => (
+              <div key={i} className="glass-card" style={{ padding: '2.5rem', borderRadius: '24px', transition: '0.3s' }} onMouseEnter={e => e.currentTarget.style.borderColor=current.accent} onMouseLeave={e => e.currentTarget.style.borderColor='var(--glass-border)'}>
+                 <div style={{ fontSize: '2.5rem', color: current.accent, marginBottom: '1.5rem' }}>{feature.icon}</div>
+                 <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '1rem' }}>{feature.title}</h3>
+                 <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6 }}>{feature.desc}</p>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Steps Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          style={{ marginTop: '12rem', width: '100%', maxWidth: '1000px', textAlign: 'center' }}
+        >
+          <h2 className="font-heading" style={{ fontSize: '3rem', marginBottom: '4rem' }}>Implementation Path</h2>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: '2rem', position: 'relative' }}>
+             <div style={{ position: 'absolute', top: '3rem', left: '10%', right: '10%', height: '1px', background: 'linear-gradient(90deg, transparent, var(--glass-border), transparent)', zIndex: 0 }} />
+             {[
+               { title: 'Define Infrastructure', desc: 'Choose between VMI nodes, Policy controls, or Reporting modules.' },
+               { title: 'Secure Integration', desc: 'Link your existing enterprise systems via our high-speed API.' },
+               { title: 'Automate & Scale', desc: 'Launch and manage your financial operations at global scale.' }
+             ].map((step, i) => (
+               <div key={i} style={{ flex: 1, zIndex: 1 }}>
+                  <div style={{ width: '60px', height: '60px', borderRadius: '50%', background: 'var(--bg-surface)', border: `2px solid ${current.accent}`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 2rem', fontWeight: 900, fontSize: '1.5rem', color: current.accent, boxShadow: `0 0 20px ${current.accent}33` }}>
+                    {i + 1}
+                  </div>
+                  <h3 style={{ fontSize: '1.35rem', fontWeight: 800, marginBottom: '0.75rem' }}>{step.title}</h3>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.5 }}>{step.desc}</p>
+               </div>
+             ))}
+          </div>
+        </motion.div>
+
+        {/* Dynamic CTA */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          style={{ 
+            marginTop: '12rem', 
+            width: '100%', 
+            maxWidth: '1200px', 
+            background: `linear-gradient(135deg, ${current.accent}11, transparent, ${current.accent}11)`,
+            padding: '5rem',
+            borderRadius: '40px',
+            border: '1px solid var(--glass-border)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            textAlign: 'center'
+          }}
+        >
+          <h2 className="font-heading" style={{ fontSize: '3rem', marginBottom: '1.5rem' }}>Building the New Financial Order</h2>
+          <p style={{ color: 'var(--text-secondary)', maxWidth: '650px', marginBottom: '3rem', fontSize: '1.2rem' }}>
+            Vaultora provides the core infrastructure for the world's most innovative fintech companies. Are you ready?
+          </p>
+          <button className="btn-primary" style={{ background: current.accent, color: '#050c11', padding: '1.25rem 4rem', fontSize: '1.1rem' }}>Get Started Today</button>
+        </motion.div>
+      </div>
 
       <Footer />
     </div>

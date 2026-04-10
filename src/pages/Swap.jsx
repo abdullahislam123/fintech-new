@@ -9,7 +9,13 @@ import {
   FaChevronDown,
   FaBolt,
   FaArrowUpRightFromSquare,
-  FaSpinner
+  FaSpinner,
+  FaShieldHalved,
+  FaCoins,
+  FaArrowsRotate,
+  FaShield,
+  FaGlobe,
+  FaArrowRight
 } from 'react-icons/fa6';
 import AnimatedBackground from '../components/AnimatedBackground';
 import { fetchCoinPrices } from '../services/coinService';
@@ -211,7 +217,7 @@ const Swap = () => {
         <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
           <div>
             <h1 className="font-heading" style={{ fontSize: '3.5rem', fontWeight: 900, letterSpacing: '-2px', color: 'white' }}>Swap<span style={{ color: 'var(--accent-teal)' }}>.</span></h1>
-            <p style={{ color: 'var(--text-secondary)', fontWeight: 600, fontSize: '1rem' }}>Elite Grade Liquidity Aggregator</p>
+            <p style={{ color: 'var(--text-secondary)', fontWeight: 600, fontSize: '1rem' }}>Safely exchange any token.</p>
           </div>
           <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
             <motion.button 
@@ -354,6 +360,89 @@ const Swap = () => {
           )}
         </AnimatePresence>
       </motion.div>
+      
+      {/* Extra Content Sections */}
+      <div className="container" style={{ position: 'relative', zIndex: 1, marginTop: '8rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        
+        {/* Benefits Grid */}
+        <motion.div 
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          style={{ width: '100%', maxWidth: '1200px' }}
+        >
+          <h2 className="font-heading" style={{ fontSize: '3rem', marginBottom: '4rem', textAlign: 'center' }}>The best rates, thousands of pairs.</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
+            {[
+              { icon: <FaBolt />, title: 'Instant Execution', desc: 'Atomic swaps using our high-throughput routing engine for the fastest trades.' },
+              { icon: <FaShield />, title: 'MEV Protection', desc: 'Shielded transactions to prevent front-running and sandwich attacks.' },
+              { icon: <FaCoins />, title: 'Multi-Asset Support', desc: 'Access deep liquidity for vUSD, Elite, and thousands of other tokens.' },
+              { icon: <FaGlobe />, title: 'Cross-Chain Routing', desc: 'Automatically finds the best path across multiple bridge protocols.' }
+            ].map((feature, i) => (
+              <div key={i} className="glass-card" style={{ padding: '2.5rem', borderRadius: '24px', transition: '0.3s' }} onMouseEnter={e => e.currentTarget.style.borderColor='var(--accent-teal)'} onMouseLeave={e => e.currentTarget.style.borderColor='var(--glass-border)'}>
+                 <div style={{ fontSize: '2.5rem', color: 'var(--accent-teal)', marginBottom: '1.5rem' }}>{feature.icon}</div>
+                 <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '1rem' }}>{feature.title}</h3>
+                 <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6 }}>{feature.desc}</p>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* How It Works */}
+        <motion.div 
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          style={{ marginTop: '10rem', width: '100%', maxWidth: '1000px', textAlign: 'center' }}
+        >
+          <h2 className="font-heading" style={{ fontSize: '3rem', marginBottom: '4rem' }}>How To Swap</h2>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: '2rem', position: 'relative' }}>
+             <div style={{ position: 'absolute', top: '3rem', left: '10%', right: '10%', height: '1px', background: 'linear-gradient(90deg, transparent, var(--glass-border), transparent)', zIndex: 0 }} />
+             {[
+               { title: 'Connect Wallet', desc: 'Link your Vaultora or Web3 wallet securely.' },
+               { title: 'Select Pair', desc: 'Choose the assets you wish to swap between.' },
+               { title: 'Confirm Order', desc: 'Execute on-chain with zero-fee settlements.' }
+             ].map((step, i) => (
+               <div key={i} style={{ flex: 1, zIndex: 1 }}>
+                  <div style={{ width: '60px', height: '60px', borderRadius: '50%', background: 'var(--bg-surface)', border: '2px solid var(--accent-teal)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 2rem', fontWeight: 900, fontSize: '1.5rem', color: 'var(--accent-teal)', boxShadow: '0 0 20px rgba(0,245,212,0.2)' }}>
+                    {i + 1}
+                  </div>
+                  <h3 style={{ fontSize: '1.35rem', fontWeight: 800, marginBottom: '0.75rem' }}>{step.title}</h3>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.5 }}>{step.desc}</p>
+               </div>
+             ))}
+          </div>
+        </motion.div>
+
+        {/* CTA Strip */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          style={{ 
+            marginTop: '12rem', 
+            marginBottom: '8rem',
+            width: '100%', 
+            maxWidth: '1200px', 
+            background: 'linear-gradient(90deg, rgba(0,245,212,0.05), transparent, rgba(0,245,212,0.05))',
+            padding: '4rem',
+            borderRadius: '32px',
+            border: '1px solid var(--glass-border)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            textAlign: 'center'
+          }}
+        >
+          <h2 className="font-heading" style={{ fontSize: '2.5rem', marginBottom: '1.5rem' }}>Start Trading Elite Assets</h2>
+          <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', marginBottom: '2.5rem' }}>
+            Experience the most advanced liquidity routing protocol in the DeFi ecosystem.
+          </p>
+          <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="btn-primary" style={{ padding: '1.25rem 3rem' }}>Move to Swap Widget</button>
+        </motion.div>
+      </div>
 
       <Footer />
     </div>

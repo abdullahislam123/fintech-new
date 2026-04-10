@@ -40,9 +40,9 @@ const Stake = () => {
             className="font-heading" 
             style={{ fontSize: '4.5rem', fontWeight: 900, color: 'white', marginBottom: '1.5rem', letterSpacing: '-3px' }}
           >
-            Elite <span style={{ color: 'var(--accent-teal)' }}>Staking.</span>
+            Earn <span style={{ color: 'var(--accent-teal)' }}>Crypto.</span>
           </motion.h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '1.25rem', fontWeight: 600 }}>Secure rewards with enterprise-grade validator infrastructure.</p>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '1.25rem', fontWeight: 600 }}>Grow your crypto with enterprise-grade validator infrastructure.</p>
         </header>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '4rem' }}>
@@ -177,6 +177,89 @@ const Stake = () => {
                </p>
             </div>
           </aside>
+        </div>
+
+        {/* Extra Content Sections - Consistent with site-wide master layout */}
+        <div style={{ marginTop: '12rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          
+          {/* Staking Benefits Grid */}
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            style={{ width: '100%', maxWidth: '1200px' }}
+          >
+            <h2 className="font-heading" style={{ fontSize: '3rem', marginBottom: '4rem', textAlign: 'center' }}>Enterprise Security</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
+              {[
+                { icon: <FaShieldHalved />, title: 'Institutional Nodes', desc: 'Secure, low-latency validator infrastructure hosted in global tier-1 data centers.' },
+                { icon: <FaLock />, title: 'Non-Custodial', desc: 'Maintain full control of your private keys. Assets are locked in open-source smart contracts.' },
+                { icon: <FaArrowTrendUp />, title: 'Real-time Rewards', desc: 'Watch your assets grow in real-time with rewards distributed every block.' },
+                { icon: <FaBolt />, title: 'Instant Liquidity', desc: 'Receive Liquid Staking Tokens (LSTs) to maintain capital efficiency while earning.' }
+              ].map((feature, i) => (
+                <div key={i} className="glass-card" style={{ padding: '2.5rem', borderRadius: '24px', transition: '0.3s' }} onMouseEnter={e => e.currentTarget.style.borderColor='var(--accent-teal)'} onMouseLeave={e => e.currentTarget.style.borderColor='var(--glass-border)'}>
+                   <div style={{ fontSize: '2.5rem', color: 'var(--accent-teal)', marginBottom: '1.5rem' }}>{feature.icon}</div>
+                   <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '1rem' }}>{feature.title}</h3>
+                   <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6 }}>{feature.desc}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Staking Steps */}
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            style={{ marginTop: '12rem', width: '100%', maxWidth: '1000px', textAlign: 'center' }}
+          >
+            <h2 className="font-heading" style={{ fontSize: '3rem', marginBottom: '4rem' }}>The Staking Process</h2>
+            <div style={{ display: 'flex', justifyContent: 'space-between', gap: '2rem', position: 'relative' }}>
+               <div style={{ position: 'absolute', top: '3rem', left: '10%', right: '10%', height: '1px', background: 'linear-gradient(90deg, transparent, var(--glass-border), transparent)', zIndex: 0 }} />
+               {[
+                 { title: 'Select Network', desc: 'Choose a blockchain from the available protocol vaults.' },
+                 { title: 'Deposit Tokens', desc: 'Allocate your assets into the high-yield staking contract.' },
+                 { title: 'Earn Interest', desc: 'Accrue rewards with 100% automated protocol distribution.' }
+               ].map((step, i) => (
+                 <div key={i} style={{ flex: 1, zIndex: 1 }}>
+                    <div style={{ width: '60px', height: '60px', borderRadius: '50%', background: 'var(--bg-surface)', border: '2px solid var(--accent-teal)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 2rem', fontWeight: 900, fontSize: '1.5rem', color: 'var(--accent-teal)', boxShadow: '0 0 20px rgba(0,245,212,0.2)' }}>
+                      {i + 1}
+                    </div>
+                    <h3 style={{ fontSize: '1.35rem', fontWeight: 800, marginBottom: '0.75rem' }}>{step.title}</h3>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.5 }}>{step.desc}</p>
+                 </div>
+               ))}
+            </div>
+          </motion.div>
+
+          {/* Custom CTA */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            style={{ 
+              marginTop: '12rem', 
+              marginBottom: '8rem',
+              width: '100%', 
+              maxWidth: '1200px', 
+              background: 'linear-gradient(135deg, rgba(130, 71, 229, 0.05), transparent, rgba(0, 245, 212, 0.05))',
+              padding: '5rem',
+              borderRadius: '32px',
+              border: '1px solid var(--glass-border)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              textAlign: 'center'
+            }}
+          >
+            <h2 className="font-heading" style={{ fontSize: '2.5rem', marginBottom: '1.5rem' }}>Earn crypto today</h2>
+            <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', marginBottom: '3rem', fontSize: '1.1rem' }}>
+              Join the largest institutional staking network. No minimums, no setup required. Grow your portfolio passively.
+            </p>
+            <button onClick={() => window.scrollTo({ top: 300, behavior: 'smooth' })} className="btn-primary" style={{ padding: '1.25rem 3.5rem' }}>Select a Vault</button>
+          </motion.div>
         </div>
       </main>
 

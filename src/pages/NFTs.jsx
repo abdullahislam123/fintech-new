@@ -118,9 +118,9 @@ const NFTs = () => {
               className="font-heading" 
               style={{ fontSize: '3.5rem', fontWeight: 900, color: 'white', marginBottom: '1rem', letterSpacing: '-1.5px' }}
             >
-              Digital <span style={{ color: 'var(--accent-teal)' }}>Vault.</span>
+              Collect & trade <span style={{ color: 'var(--accent-teal)' }}>NFTs.</span>
             </motion.h1>
-            <p style={{ color: 'var(--text-muted)', fontSize: '1.125rem', fontWeight: 500 }}>Elite custody for high-value digital collectibles. Managed directly from your VMI portal.</p>
+            <p style={{ color: 'var(--text-muted)', fontSize: '1.125rem', fontWeight: 500 }}>Browse. Mint. Repeat. The future of digital ownership in your Vaultora portal.</p>
           </div>
           
           <div style={{ display: 'flex', gap: '1rem' }}>
@@ -142,16 +142,90 @@ const NFTs = () => {
           ))}
         </section>
 
-        {/* Bottom CTA */}
-        <section style={{ marginTop: '8rem', textAlign: 'center' }}>
-           <div className="glass-card" style={{ padding: '4rem', borderRadius: '3rem', border: '1px solid var(--glass-border)', background: 'linear-gradient(135deg, rgba(130, 71, 229, 0.05) 0%, rgba(0,0,0,0) 100%)' }}>
-              <h2 style={{ color: 'white', fontSize: '2.5rem', fontWeight: 900, marginBottom: '1.5rem', letterSpacing: '-1px' }}>Ready to Eliteize your NFTs?</h2>
-              <p style={{ color: 'var(--text-muted)', fontSize: '1.125rem', marginBottom: '2.5rem', maxWidth: '600px', margin: '0 auto 2.5rem', fontWeight: 500 }}>
-                Join the world's leading collectors and institutions managing billions in digital assets on the Vaultora platform.
-              </p>
-              <button className="btn-primary" style={{ background: 'var(--accent-teal)', color: '#020609', padding: '1.25rem 3.5rem', borderRadius: '1rem', fontWeight: 900, fontSize: '1rem' }}>Explore Full Marketplace</button>
-           </div>
-        </section>
+        {/* Extra Content Sections - Consistent with site-wide master layout */}
+        <div style={{ marginTop: '12rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          
+          {/* NFT Benefits Grid */}
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            style={{ width: '100%', maxWidth: '1200px' }}
+          >
+            <h2 className="font-heading" style={{ fontSize: '3rem', marginBottom: '4rem', textAlign: 'center' }}>Institutional NFT Custody</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
+              {[
+                { icon: <FaShieldHalved />, title: 'Cold-Storage Vaults', desc: 'Secure your air-gapped high-value assets with our multi-sig institutional vault infrastructure.' },
+                { icon: <FaChartLine />, title: 'Floor Price Oracles', desc: 'Real-time valuation for your entire collection using our proprietary Elite-Grade data feeds.' },
+                { icon: <FaBolt />, title: 'Instant NFT Loans', desc: 'Borrow vUSD against blue-chip collections instantly without selling your underlying assets.' },
+                { icon: <FaFingerprint />, title: 'Provenance Verification', desc: 'Automatic cryptographic verification of asset history and ownership authenticity.' }
+              ].map((feature, i) => (
+                <div key={i} className="glass-card" style={{ padding: '2.5rem', borderRadius: '24px', transition: '0.3s' }} onMouseEnter={e => e.currentTarget.style.borderColor='var(--accent-teal)'} onMouseLeave={e => e.currentTarget.style.borderColor='var(--glass-border)'}>
+                   <div style={{ fontSize: '2.5rem', color: 'var(--accent-teal)', marginBottom: '1.5rem' }}>{feature.icon}</div>
+                   <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '1rem' }}>{feature.title}</h3>
+                   <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6 }}>{feature.desc}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* NFT Steps */}
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            style={{ marginTop: '12rem', width: '100%', maxWidth: '1000px', textAlign: 'center' }}
+          >
+            <h2 className="font-heading" style={{ fontSize: '3rem', marginBottom: '4rem' }}>Managing Your Assets</h2>
+            <div style={{ display: 'flex', justifyContent: 'space-between', gap: '2rem', position: 'relative' }}>
+               <div style={{ position: 'absolute', top: '3rem', left: '10%', right: '10%', height: '1px', background: 'linear-gradient(90deg, transparent, var(--glass-border), transparent)', zIndex: 0 }} />
+               {[
+                 { title: 'Link Portfolios', desc: 'Connect multiple wallets to aggregate your digital asset view.' },
+                 { title: 'Secure Assets', desc: 'Transfer high-value items to our hardened cold-storage vaults.' },
+                 { title: 'Manage & Earn', desc: 'Borrow against or showcase your assets within the Elite ecosystem.' }
+               ].map((step, i) => (
+                 <div key={i} style={{ flex: 1, zIndex: 1 }}>
+                    <div style={{ width: '60px', height: '60px', borderRadius: '50%', background: 'var(--bg-surface)', border: '2px solid var(--accent-teal)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 2rem', fontWeight: 900, fontSize: '1.5rem', color: 'var(--accent-teal)', boxShadow: '0 0 20px rgba(0,245,212,0.2)' }}>
+                      {i + 1}
+                    </div>
+                    <h3 style={{ fontSize: '1.35rem', fontWeight: 800, marginBottom: '0.75rem' }}>{step.title}</h3>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.5 }}>{step.desc}</p>
+                 </div>
+               ))}
+            </div>
+          </motion.div>
+
+          {/* Enhanced CTA */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            style={{ 
+              marginTop: '12rem', 
+              marginBottom: '8rem',
+              width: '100%', 
+              maxWidth: '1200px', 
+              background: 'linear-gradient(to bottom right, rgba(0, 245, 212, 0.05), transparent, rgba(255, 0, 85, 0.05))',
+              padding: '6rem 4rem',
+              borderRadius: '40px',
+              border: '1px solid var(--glass-border)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              textAlign: 'center'
+            }}
+          >
+            <h2 className="font-heading" style={{ fontSize: '3rem', marginBottom: '1.5rem' }}>The Future of Digital Ownership</h2>
+            <p style={{ color: 'var(--text-secondary)', maxWidth: '650px', marginBottom: '3rem', fontSize: '1.2rem', lineHeight: 1.6 }}>
+              Unlock the liquidity of your collection. Vaultora provides the world's most secure environment for professional collectors.
+            </p>
+            <div style={{ display: 'flex', gap: '1.5rem' }}>
+              <button className="btn-primary" style={{ padding: '1.25rem 3.5rem' }}>Connect Collection</button>
+            </div>
+          </motion.div>
+        </div>
       </main>
 
       <Footer />

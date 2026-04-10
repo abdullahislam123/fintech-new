@@ -148,13 +148,15 @@ const Home = () => {
         alignItems: 'center',
         textAlign: 'center',
         position: 'relative',
-        zIndex: 1
+        zIndex: 1,
+        perspective: '1500px'
       }}>
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 20, rotateX: 20 }}
+          animate={{ opacity: 1, y: 0, rotateX: 0 }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          style={{ maxWidth: '1200px' }}
+          style={{ maxWidth: '1200px', transformStyle: 'preserve-3d' }}
+          whileHover={{ scale: 1.02 }}
         >
           <h1 className="font-heading" style={{ 
             fontSize: 'max(6rem, 10vw)', 
@@ -162,9 +164,10 @@ const Home = () => {
             lineHeight: 0.85, 
             marginBottom: '3rem',
             letterSpacing: '-6px',
-            color: 'white'
+            color: 'white',
+            transform: 'translateZ(50px)'
           }}>
-            Crypto Wallet<span style={{ color: 'var(--accent-teal)' }}>.</span>
+            A crypto wallet &<br /><span style={{ color: 'var(--accent-teal)' }}>gateway to blockchain apps.</span>
           </h1>
 
           {/* Floating Action Cards Insight */}
@@ -200,7 +203,7 @@ const Home = () => {
             margin: '0 auto 5rem',
             fontWeight: 500
           }}>
-            The definitive Elite gateway for digital asset management. Execute swaps, manage cross-chain liquidity, and secure your future with military-grade protocol.
+            Buy, store, send and swap tokens. Enjoy total control over your data and assets. The definitive Vaultora gateway for digital asset management.
           </p>
 
           <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', marginBottom: '8rem' }}>
@@ -224,10 +227,10 @@ const Home = () => {
       <section style={{ padding: '10rem 4rem', position: 'relative', zIndex: 1 }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '8rem', alignItems: 'center' }}>
           <motion.div>
-            <span style={{ color: 'var(--accent-teal)', fontWeight: 800, fontSize: '0.875rem', textTransform: 'uppercase', marginBottom: '1.5rem', letterSpacing: '3px', display: 'block' }}>CRYPTO NOIR SECURITY</span>
-            <h2 className="font-heading" style={{ fontSize: '4.5rem', fontWeight: 900, marginBottom: '2.5rem', lineHeight: 1, letterSpacing: '-3px' }}>Trusted by <br />Global Funds.</h2>
+            <span style={{ color: 'var(--accent-teal)', fontWeight: 800, fontSize: '0.875rem', textTransform: 'uppercase', marginBottom: '1.5rem', letterSpacing: '3px', display: 'block' }}>OWN YOUR DATA</span>
+            <h2 className="font-heading" style={{ fontSize: '4.5rem', fontWeight: 900, marginBottom: '2.5rem', lineHeight: 1, letterSpacing: '-3px' }}>The most secure <br />wallet around.</h2>
             <p style={{ fontSize: '1.25rem', color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: '4rem', fontWeight: 500 }}>
-              Vaultora provides a non-custodial gateway with localized encryption. We never hold your keys—we just provide the world's most beautiful bridge to dApps.
+              Vaultora provides a non-custodial gateway with localized encryption. We never hold your keys—we just provide the world's most beautiful bridge to dApps. Powering the ecosystem with built-in security alerts and front-run protection.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem' }}>
                <div>
@@ -253,8 +256,12 @@ const Home = () => {
       <section style={{ padding: '10rem 4rem', textAlign: 'center', background: 'var(--accent-teal)', color: '#050c11' }}>
          <h2 className="font-heading" style={{ fontSize: '5rem', fontWeight: 900, marginBottom: '3rem', letterSpacing: '-4px' }}>Build your <span style={{ textDecoration: 'underline' }}>Legacy</span> on Chain.</h2>
          <div style={{ display: 'flex', gap: '2rem', justifyContent: 'center' }}>
-            <button style={{ background: '#050c11', color: 'white', padding: '1.25rem 4rem', borderRadius: 'var(--pill-radius)', border: 'none', fontWeight: 900, fontSize: '1.25rem' }}>Connect Now</button>
-            <button style={{ background: 'transparent', color: '#050c11', padding: '1.25rem 4rem', borderRadius: 'var(--pill-radius)', border: '3px solid #050c11', fontWeight: 900, fontSize: '1.25rem' }}>Enterprise FAQ</button>
+            <Link to="/download">
+              <button style={{ background: '#050c11', color: 'white', padding: '1.25rem 4rem', borderRadius: 'var(--pill-radius)', border: 'none', fontWeight: 900, fontSize: '1.25rem', cursor: 'pointer' }}>Connect Now</button>
+            </Link>
+            <Link to="/faq">
+              <button style={{ background: 'transparent', color: '#050c11', padding: '1.25rem 4rem', borderRadius: 'var(--pill-radius)', border: '3px solid #050c11', fontWeight: 900, fontSize: '1.25rem', cursor: 'pointer' }}>Enterprise FAQ</button>
+            </Link>
          </div>
       </section>
 

@@ -66,7 +66,7 @@ const Bridge = () => {
       >
         <header style={{ textAlign: 'center', marginBottom: '4rem' }}>
           <h1 className="font-heading" style={{ fontSize: '4rem', fontWeight: 900, marginBottom: '1rem', letterSpacing: '-3px' }}>Bridge<span style={{ color: 'var(--accent-teal)' }}>.</span></h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '1.125rem', fontWeight: 600 }}>Zero-Latency Cross-Chain Infrastructure</p>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '1.125rem', fontWeight: 600 }}>The best of crypto brought to you.</p>
         </header>
 
         <div className="glass-card" style={{ padding: '3rem', background: 'rgba(5, 12, 17, 0.5)', backdropFilter: 'blur(40px)' }}>
@@ -215,6 +215,89 @@ const Bridge = () => {
               <span style={{ fontSize: '1rem', fontWeight: 700, display: 'block' }}>Global Relay</span>
               <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Low-latency cross-chain nodes</span>
             </div>
+          </motion.div>
+        </div>
+
+        {/* Extra Content Sections - Consistent with site-wide master layout */}
+        <div style={{ marginTop: '12rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          
+          {/* Bridge Benefits Grid */}
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            style={{ width: '100%', maxWidth: '1200px' }}
+          >
+            <h2 className="font-heading" style={{ fontSize: '3rem', marginBottom: '4rem', textAlign: 'center' }}>Cross-Chain Infrastructure</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
+              {[
+                { icon: <FaGlobe />, title: 'Multi-Network Hub', desc: 'Securely move assets between Ethereum, Solana, Arbitrum, and other EVM compatible chains.' },
+                { icon: <FaBolt />, title: 'Nitro Settlements', desc: 'Optimized routing nodes ensure cross-chain finality in under 120 seconds for most pairs.' },
+                { icon: <FaShieldHalved />, title: 'Trustless Security', desc: 'Immutable smart contracts audited by industry leaders. No centralized custodians involved.' },
+                { icon: <FaSpinner />, title: 'Real-time Tracking', desc: 'Track your cross-chain transaction across both source and destination networks in real-time.' }
+              ].map((feature, i) => (
+                <div key={i} className="glass-card" style={{ padding: '2.5rem', borderRadius: '24px', transition: '0.3s' }} onMouseEnter={e => e.currentTarget.style.borderColor='var(--accent-teal)'} onMouseLeave={e => e.currentTarget.style.borderColor='var(--glass-border)'}>
+                   <div style={{ fontSize: '2.5rem', color: 'var(--accent-teal)', marginBottom: '1.5rem' }}>{feature.icon}</div>
+                   <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '1rem' }}>{feature.title}</h3>
+                   <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6 }}>{feature.desc}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Bridge Steps */}
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            style={{ marginTop: '12rem', width: '100%', maxWidth: '1000px', textAlign: 'center' }}
+          >
+            <h2 className="font-heading" style={{ fontSize: '3rem', marginBottom: '4rem' }}>How To Bridge</h2>
+            <div style={{ display: 'flex', justifyContent: 'space-between', gap: '2rem', position: 'relative' }}>
+               <div style={{ position: 'absolute', top: '3rem', left: '10%', right: '10%', height: '1px', background: 'linear-gradient(90deg, transparent, var(--glass-border), transparent)', zIndex: 0 }} />
+               {[
+                 { title: 'Define Route', desc: 'Choose your source and destination networks and the amount to send.' },
+                 { title: 'Release Asset', desc: 'Approve and sign the transaction to send tokens to the bridge vault.' },
+                 { title: 'Nexus Finality', desc: 'Our relayers verify the proof and release assets on the target chain.' }
+               ].map((step, i) => (
+                 <div key={i} style={{ flex: 1, zIndex: 1 }}>
+                    <div style={{ width: '60px', height: '60px', borderRadius: '50%', background: 'var(--bg-surface)', border: '2px solid var(--accent-teal)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 2rem', fontWeight: 900, fontSize: '1.5rem', color: 'var(--accent-teal)', boxShadow: '0 0 20px rgba(0,245,212,0.2)' }}>
+                      {i + 1}
+                    </div>
+                    <h3 style={{ fontSize: '1.35rem', fontWeight: 800, marginBottom: '0.75rem' }}>{step.title}</h3>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.5 }}>{step.desc}</p>
+                 </div>
+               ))}
+            </div>
+          </motion.div>
+
+          {/* Bridge CTA */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            style={{ 
+              marginTop: '12rem', 
+              marginBottom: '8rem',
+              width: '100%', 
+              maxWidth: '1200px', 
+              background: 'linear-gradient(90deg, rgba(0, 245, 212, 0.05), transparent, rgba(255, 100, 50, 0.05))',
+              padding: '4rem',
+              borderRadius: '32px',
+              border: '1px solid var(--glass-border)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              textAlign: 'center'
+            }}
+          >
+            <h2 className="font-heading" style={{ fontSize: '2.5rem', marginBottom: '1.5rem' }}>Experience Multi-Chain Unity</h2>
+            <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', marginBottom: '2.5rem', fontSize: '1.1rem' }}>
+              Bridge assets between 9+ networks with the industry standard for cross-chain security.
+            </p>
+            <button onClick={() => window.scrollTo({ top: 300, behavior: 'smooth' })} className="btn-primary" style={{ padding: '1.25rem 3rem' }}>Move to Bridge Widget</button>
           </motion.div>
         </div>
       </motion.div>

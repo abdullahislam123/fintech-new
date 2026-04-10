@@ -111,7 +111,7 @@ const ExtensionCard = ({ browser, icon, gradient, glowColor, users, features }) 
             zIndex: 1,
             background: 'white',
             color: 'black'
-          }}>
+          }} onClick={(e) => { e.stopPropagation(); alert(`Downloading Vaultora Extension for ${browser}...`); }}>
             Install Extension <FaArrowRight />
           </button>
         </div>

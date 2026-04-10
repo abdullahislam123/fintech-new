@@ -1,8 +1,11 @@
 import React from 'react';
-import Topbar from './Topbar';
+import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import Topbar from './Topbar';
 
 const Layout = ({ children }) => {
+  const location = useLocation();
+
   return (
     <div className="layout-root" style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-dark)', flexDirection: 'column' }}>
       <div className="main-content" style={{ 
@@ -17,11 +20,11 @@ const Layout = ({ children }) => {
         <main style={{ padding: '0', flex: 1 }}>
           <AnimatePresence mode="wait">
             <motion.div
-              key={window.location.pathname}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
+              key={location.key}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
             >
               {children}
             </motion.div>

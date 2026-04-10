@@ -23,7 +23,6 @@ export const fetchCoinPrices = async () => {
     
     const data = await response.json();
     
-    // Map data back to our format
     return {
       BTC: {
         usd: data[COIN_IDS.BTC]?.usd,
@@ -46,6 +45,22 @@ export const fetchCoinPrices = async () => {
         change: data[COIN_IDS.ARB]?.usd_24h_change
       }
     };
+  } catch (error) {
+    console.error('Error fetching coin prices:', error);
+    return null;
+  }
+};
+
+export const fetchTopCoins = async () => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=30&page=1&sparkline=false`
+    );
+    
+    if (!response.ok) throw new Error('Network response was not ok');
+    
+    const data = await response.json();
+    return data; // Array of top 30 coins with detailed metrics
   } catch (error) {
     console.error('Error fetching coin prices:', error);
     return null;
