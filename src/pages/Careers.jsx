@@ -20,35 +20,44 @@ const perks = [
   { icon: <FaUsers />, title: "Team Retreats", desc: "Bi-annual all-company offsites in cities like Lisbon, Bali, Tokyo, and Barcelona." },
 ];
 
+import { useState, useEffect } from 'react';
+
 const Careers = () => {
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 1024 : false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   return (
-    <div style={{ minHeight: '100vh', paddingTop: '10rem', position: 'relative' }}>
+    <div style={{ minHeight: '100vh', paddingTop: isMobile ? '7rem' : '10rem', position: 'relative' }}>
       <AnimatedBackground />
-      <main style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1, padding: '0 2rem 10rem 2rem' }}>
+      <main style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1, padding: isMobile ? '0 1.5rem 6rem 1.5rem' : '0 2rem 10rem 2rem' }}>
 
         {/* Hero */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          style={{ textAlign: 'center', marginBottom: '6rem' }}
+          style={{ textAlign: 'center', marginBottom: isMobile ? '4rem' : '6rem' }}
         >
-          <div style={{ display: 'inline-block', padding: '0.5rem 1.5rem', borderRadius: '100px', border: '1px solid var(--accent-teal-soft)', background: 'rgba(0, 245, 212, 0.05)', color: 'var(--accent-teal)', fontWeight: 800, fontSize: '0.875rem', marginBottom: '2rem', letterSpacing: '2px' }}>
+          <div style={{ display: 'inline-block', padding: '0.4rem 1.25rem', borderRadius: '100px', border: '1px solid var(--accent-teal-soft)', background: 'rgba(0, 245, 212, 0.05)', color: 'var(--accent-teal)', fontWeight: 800, fontSize: '0.75rem', marginBottom: '1.5rem', letterSpacing: '2px' }}>
             JOIN THE TEAM
           </div>
-          <h1 className="font-heading" style={{ fontSize: '4.5rem', fontWeight: 900, marginBottom: '1.5rem', letterSpacing: '-3px' }}>
+          <h1 className="font-heading" style={{ fontSize: isMobile ? '2.5rem' : '4.5rem', fontWeight: 900, marginBottom: '1.5rem', letterSpacing: '-2px', lineHeight: 1.1 }}>
             Build the future of <span style={{ color: 'var(--accent-teal)' }}>Web3.</span>
           </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '1.25rem', maxWidth: '700px', margin: '0 auto', lineHeight: 1.6 }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: isMobile ? '1.05rem' : '1.25rem', maxWidth: '700px', margin: '0 auto', lineHeight: 1.6 }}>
             Vaultora is on a mission to make decentralized finance accessible to everyone. Join a world-class team shipping products used by millions.
           </p>
         </motion.div>
 
         {/* Stats Banner */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '2rem', marginBottom: '8rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', gap: isMobile ? '1rem' : '2rem', marginBottom: isMobile ? '4rem' : '8rem' }}>
           {[
-            { value: "80+", label: "Team Members" },
+            { value: "80+", label: isMobile ? "Team" : "Team Members" },
             { value: "12", label: "Countries" },
-            { value: "30M+", label: "Users Served" },
+            { value: "30M+", label: isMobile ? "Users" : "Users Served" },
             { value: "$120M", label: "Raised" },
           ].map((stat, i) => (
             <motion.div
@@ -58,10 +67,10 @@ const Careers = () => {
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
               className="glass-card"
-              style={{ padding: '2.5rem', borderRadius: '1.5rem', textAlign: 'center' }}
+              style={{ padding: isMobile ? '1.5rem 1rem' : '2.5rem', borderRadius: '1.5rem', textAlign: 'center' }}
             >
-              <div style={{ fontSize: '3rem', fontWeight: 900, color: 'var(--accent-teal)', letterSpacing: '-2px', marginBottom: '0.5rem' }}>{stat.value}</div>
-              <div style={{ color: 'var(--text-muted)', fontSize: '0.875rem', fontWeight: 800, letterSpacing: '1.5px', textTransform: 'uppercase' }}>{stat.label}</div>
+              <div style={{ fontSize: isMobile ? '1.75rem' : '3rem', fontWeight: 900, color: 'var(--accent-teal)', letterSpacing: '-1px', marginBottom: '0.25rem' }}>{stat.value}</div>
+              <div style={{ color: 'var(--text-muted)', fontSize: '0.7rem', fontWeight: 800, letterSpacing: '1px', textTransform: 'uppercase' }}>{stat.label}</div>
             </motion.div>
           ))}
         </div>
@@ -71,12 +80,12 @@ const Careers = () => {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          style={{ marginBottom: '8rem' }}
+          style={{ marginBottom: isMobile ? '6rem' : '8rem' }}
         >
-          <h2 className="font-heading" style={{ fontSize: '3rem', fontWeight: 900, letterSpacing: '-2px', marginBottom: '3rem' }}>
+          <h2 className="font-heading" style={{ fontSize: isMobile ? '2rem' : '3rem', fontWeight: 900, letterSpacing: '-2px', marginBottom: isMobile ? '2rem' : '3rem' }}>
             Why Vaultora<span style={{ color: 'var(--accent-teal)' }}>.</span>
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '2rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', gap: '1.5rem' }}>
             {perks.map((perk, i) => (
               <motion.div
                 key={i}
@@ -84,16 +93,16 @@ const Careers = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
-                whileHover={{ y: -5, borderColor: 'var(--accent-teal-soft)' }}
+                whileHover={isMobile ? {} : { y: -5, borderColor: 'var(--accent-teal-soft)' }}
                 className="glass-card"
-                style={{ padding: '2.5rem', borderRadius: '1.5rem', display: 'flex', gap: '2rem', alignItems: 'flex-start', transition: 'border-color 0.3s' }}
+                style={{ padding: isMobile ? '2rem' : '2.5rem', borderRadius: '1.5rem', display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? '1.5rem' : '2rem', alignItems: 'flex-start', transition: 'border-color 0.3s' }}
               >
                 <div style={{ width: '52px', height: '52px', minWidth: '52px', borderRadius: '1rem', background: 'rgba(0,245,212,0.08)', border: '1px solid rgba(0,245,212,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent-teal)', fontSize: '1.25rem' }}>
                   {perk.icon}
                 </div>
                 <div>
-                  <h3 style={{ color: 'white', fontSize: '1.35rem', fontWeight: 900, marginBottom: '0.75rem', letterSpacing: '-0.5px' }}>{perk.title}</h3>
-                  <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6, fontSize: '1.05rem' }}>{perk.desc}</p>
+                  <h3 style={{ color: 'white', fontSize: isMobile ? '1.25rem' : '1.35rem', fontWeight: 900, marginBottom: '0.75rem', letterSpacing: '-0.5px' }}>{perk.title}</h3>
+                  <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6, fontSize: isMobile ? '0.95rem' : '1.05rem' }}>{perk.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -105,13 +114,13 @@ const Careers = () => {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          style={{ marginBottom: '8rem' }}
+          style={{ marginBottom: isMobile ? '6rem' : '8rem' }}
         >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '3rem' }}>
-            <h2 className="font-heading" style={{ fontSize: '3rem', fontWeight: 900, letterSpacing: '-2px' }}>
+          <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', alignItems: isMobile ? 'flex-start' : 'flex-end', marginBottom: isMobile ? '2rem' : '3rem', gap: '1rem' }}>
+            <h2 className="font-heading" style={{ fontSize: isMobile ? '2rem' : '3rem', fontWeight: 900, letterSpacing: '-2px' }}>
               Open Positions<span style={{ color: 'var(--accent-teal)' }}>.</span>
             </h2>
-            <span style={{ color: 'var(--text-muted)', fontWeight: 800, fontSize: '0.875rem', letterSpacing: '1px' }}>{openings.length} OPENINGS</span>
+            <span style={{ color: 'var(--text-muted)', fontWeight: 800, fontSize: '0.8125rem', letterSpacing: '1px' }}>{openings.length} OPENINGS</span>
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -122,26 +131,26 @@ const Careers = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.05 }}
-                whileHover={{ borderColor: 'var(--accent-teal-soft)', background: 'rgba(255,255,255,0.02)' }}
+                whileHover={isMobile ? {} : { borderColor: 'var(--accent-teal-soft)', background: 'rgba(255,255,255,0.02)' }}
                 className="glass-card"
-                style={{ padding: '2rem 2.5rem', borderRadius: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', transition: 'all 0.3s' }}
+                style={{ padding: isMobile ? '1.5rem' : '2rem 2.5rem', borderRadius: '1rem', display: 'flex', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', alignItems: isMobile ? 'flex-start' : 'center', cursor: 'pointer', transition: 'all 0.3s', gap: isMobile ? '1.5rem' : '0' }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '3rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '1rem' : '3rem' }}>
                   <div>
-                    <h3 style={{ color: 'white', fontSize: '1.2rem', fontWeight: 800, marginBottom: '0.5rem' }}>{job.title}</h3>
-                    <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)', fontSize: '0.875rem', fontWeight: 600 }}>
+                    <h3 style={{ color: 'white', fontSize: isMobile ? '1.1rem' : '1.2rem', fontWeight: 800, marginBottom: '0.5rem' }}>{job.title}</h3>
+                    <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? '0.5rem' : '1.5rem', alignItems: isMobile ? 'flex-start' : 'center' }}>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)', fontSize: '0.8125rem', fontWeight: 600 }}>
                         <FaBriefcase size={12} color="var(--accent-teal)" /> {job.dept}
                       </span>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)', fontSize: '0.875rem', fontWeight: 600 }}>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)', fontSize: '0.8125rem', fontWeight: 600 }}>
                         <FaLocationDot size={12} color="var(--accent-teal)" /> {job.location}
                       </span>
                     </div>
                   </div>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-                  <span style={{ padding: '0.4rem 1rem', borderRadius: '100px', background: 'rgba(0,245,212,0.08)', color: 'var(--accent-teal)', fontSize: '0.8rem', fontWeight: 800, letterSpacing: '0.5px' }}>{job.type}</span>
-                  <FaArrowRight size={16} color="var(--text-muted)" />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', alignSelf: isMobile ? 'flex-end' : 'center' }}>
+                  <span style={{ padding: '0.35rem 0.875rem', borderRadius: '100px', background: 'rgba(0,245,212,0.08)', color: 'var(--accent-teal)', fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.5px' }}>{job.type}</span>
+                  {!isMobile && <FaArrowRight size={16} color="var(--text-muted)" />}
                 </div>
               </motion.div>
             ))}
@@ -154,13 +163,13 @@ const Careers = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="glass-card"
-          style={{ padding: '4rem', borderRadius: '2rem', textAlign: 'center', background: 'linear-gradient(135deg, rgba(0,245,212,0.06), rgba(5,12,17,0.9))', border: '1px solid var(--accent-teal-soft)' }}
+          style={{ padding: isMobile ? '3rem 1.5rem' : '4rem', borderRadius: '2rem', textAlign: 'center', background: 'linear-gradient(135deg, rgba(0,245,212,0.06), rgba(5,12,17,0.9))', border: '1px solid var(--accent-teal-soft)' }}
         >
-          <h3 style={{ fontSize: '2.5rem', fontWeight: 900, color: 'white', marginBottom: '1rem', letterSpacing: '-1px' }}>Don't see a fit?</h3>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '1.15rem', maxWidth: '550px', margin: '0 auto 2.5rem', lineHeight: 1.6 }}>
+          <h3 style={{ fontSize: isMobile ? '1.75rem' : '2.5rem', fontWeight: 900, color: 'white', marginBottom: '1rem', letterSpacing: '-1px' }}>Don't see a fit?</h3>
+          <p style={{ color: 'var(--text-secondary)', fontSize: isMobile ? '1rem' : '1.15rem', maxWidth: '550px', margin: '0 auto 2.5rem', lineHeight: 1.6 }}>
             We're always looking for exceptional talent. Send us your resume and we'll keep you in mind for future opportunities.
           </p>
-          <button className="btn-primary teal-glow" style={{ padding: '1.25rem 3rem', fontSize: '1.1rem' }}>
+          <button className="btn-primary teal-glow" style={{ padding: '1.25rem 3rem', fontSize: '1rem', width: isMobile ? '100%' : 'auto', justifyContent: 'center' }}>
             Send Open Application
           </button>
         </motion.div>

@@ -30,7 +30,14 @@ const TOKENS = [
 ];
 
 const Swap = () => {
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 1024 : false);
   const [fromToken, setFromToken] = useState(TOKENS[0]);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   const [toToken, setToToken] = useState(TOKENS[1]);
   const [fromAmount, setFromAmount] = useState('');
   const [toAmount, setToAmount] = useState('');
@@ -203,7 +210,7 @@ const Swap = () => {
   );
 
   return (
-    <div className="swap-page" style={{ minHeight: '100vh', padding: '10rem 4rem', position: 'relative' }}>
+    <div className="swap-page" style={{ minHeight: '100vh', padding: isMobile ? '8rem 1.5rem 4rem' : '10rem 4rem', position: 'relative' }}>
       <AnimatedBackground />
       
       {/* Background Portal Glow */}
@@ -214,9 +221,9 @@ const Swap = () => {
         animate={{ opacity: 1, y: 0 }}
         style={{ maxWidth: '540px', margin: '0 auto', position: 'relative', zIndex: 1 }}
       >
-        <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
+        <header style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', alignItems: isMobile ? 'flex-start' : 'center', marginBottom: isMobile ? '2rem' : '3rem', gap: isMobile ? '1.5rem' : '0' }}>
           <div>
-            <h1 className="font-heading" style={{ fontSize: '3.5rem', fontWeight: 900, letterSpacing: '-2px', color: 'white' }}>Swap<span style={{ color: 'var(--accent-teal)' }}>.</span></h1>
+            <h1 className="font-heading" style={{ fontSize: isMobile ? '2.5rem' : '3.5rem', fontWeight: 900, letterSpacing: '-2px', color: 'white' }}>Swap<span style={{ color: 'var(--accent-teal)' }}>.</span></h1>
             <p style={{ color: 'var(--text-secondary)', fontWeight: 600, fontSize: '1rem' }}>Safely exchange any token.</p>
           </div>
           <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
@@ -236,22 +243,24 @@ const Swap = () => {
           <div style={{ marginBottom: '0.75rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
               <span style={{ color: 'var(--text-muted)', fontWeight: 800, fontSize: '0.8125rem', textTransform: 'uppercase', letterSpacing: '1px' }}>You Pay</span>
-              <span style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', fontWeight: 700 }}>Available: 1.24 {fromToken.symbol}</span>
+              <span style={{ color: 'var(--text-secondary)', fontSize: '0.8125rem', fontWeight: 700 }}>Available: 1.24 {fromToken.symbol}</span>
             </div>
-            <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: isMobile ? 'column-reverse' : 'row', gap: isMobile ? '1rem' : '1.5rem', alignItems: isMobile ? 'flex-start' : 'center' }}>
               <input 
                 type="number" 
                 placeholder="0.0" 
                 value={fromAmount}
                 onChange={(e) => setFromAmount(e.target.value)}
-                style={{ background: 'transparent', border: 'none', color: 'white', fontSize: '2.5rem', fontWeight: 900, width: '100%', outline: 'none', padding: '0.5rem 0', letterSpacing: '-1px' }} 
+                style={{ background: 'transparent', border: 'none', color: 'white', fontSize: isMobile ? '2rem' : '2.5rem', fontWeight: 900, width: '100%', outline: 'none', padding: '0.5rem 0', letterSpacing: '-1px' }} 
               />
-              <TokenList 
-                activeToken={fromToken} 
-                onSelect={setFromToken} 
-                isOpen={isFromOpen} 
-                setIsOpen={setIsFromOpen} 
-              />
+              <div style={{ alignSelf: isMobile ? 'flex-end' : 'center' }}>
+                <TokenList 
+                  activeToken={fromToken} 
+                  onSelect={setFromToken} 
+                  isOpen={isFromOpen} 
+                  setIsOpen={setIsFromOpen} 
+                />
+              </div>
             </div>
           </div>
 
@@ -282,22 +291,24 @@ const Swap = () => {
           <div style={{ marginTop: '0.75rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
               <span style={{ color: 'var(--text-muted)', fontWeight: 800, fontSize: '0.8125rem', textTransform: 'uppercase', letterSpacing: '1px' }}>You Receive</span>
-              <span style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', fontWeight: 700 }}>Wallet: 560.00 {toToken.symbol}</span>
+              <span style={{ color: 'var(--text-secondary)', fontSize: '0.8125rem', fontWeight: 700 }}>Wallet: 560.00 {toToken.symbol}</span>
             </div>
-            <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: isMobile ? 'column-reverse' : 'row', gap: isMobile ? '1rem' : '1.5rem', alignItems: isMobile ? 'flex-start' : 'center' }}>
               <input 
                 type="number" 
                 placeholder="0.0" 
                 value={toAmount}
                 readOnly
-                style={{ background: 'transparent', border: 'none', color: 'var(--text-secondary)', fontSize: '2.5rem', fontWeight: 900, width: '100%', outline: 'none', padding: '0.5rem 0', letterSpacing: '-1px' }} 
+                style={{ background: 'transparent', border: 'none', color: 'var(--text-secondary)', fontSize: isMobile ? '2rem' : '2.5rem', fontWeight: 900, width: '100%', outline: 'none', padding: '0.5rem 0', letterSpacing: '-1px' }} 
               />
-              <TokenList 
-                activeToken={toToken} 
-                onSelect={setToToken} 
-                isOpen={isToOpen} 
-                setIsOpen={setIsToOpen} 
-              />
+              <div style={{ alignSelf: isMobile ? 'flex-end' : 'center' }}>
+                <TokenList 
+                  activeToken={toToken} 
+                  onSelect={setToToken} 
+                  isOpen={isToOpen} 
+                  setIsOpen={setIsToOpen} 
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -362,7 +373,7 @@ const Swap = () => {
       </motion.div>
       
       {/* Extra Content Sections */}
-      <div className="container" style={{ position: 'relative', zIndex: 1, marginTop: '8rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{ position: 'relative', zIndex: 1, marginTop: isMobile ? '4rem' : '8rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         
         {/* Benefits Grid */}
         <motion.div 
@@ -370,18 +381,18 @@ const Swap = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          style={{ width: '100%', maxWidth: '1200px' }}
+          style={{ width: '100%', maxWidth: '1200px', padding: isMobile ? '0 1.5rem' : '0' }}
         >
-          <h2 className="font-heading" style={{ fontSize: '3rem', marginBottom: '4rem', textAlign: 'center' }}>The best rates, thousands of pairs.</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
+          <h2 className="font-heading" style={{ fontSize: isMobile ? '2rem' : '3rem', marginBottom: isMobile ? '2.5rem' : '4rem', textAlign: 'center', lineHeight: 1.2 }}>The best rates, thousands of pairs.</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
             {[
               { icon: <FaBolt />, title: 'Instant Execution', desc: 'Atomic swaps using our high-throughput routing engine for the fastest trades.' },
               { icon: <FaShield />, title: 'MEV Protection', desc: 'Shielded transactions to prevent front-running and sandwich attacks.' },
               { icon: <FaCoins />, title: 'Multi-Asset Support', desc: 'Access deep liquidity for vUSD, Elite, and thousands of other tokens.' },
               { icon: <FaGlobe />, title: 'Cross-Chain Routing', desc: 'Automatically finds the best path across multiple bridge protocols.' }
             ].map((feature, i) => (
-              <div key={i} className="glass-card" style={{ padding: '2.5rem', borderRadius: '24px', transition: '0.3s' }} onMouseEnter={e => e.currentTarget.style.borderColor='var(--accent-teal)'} onMouseLeave={e => e.currentTarget.style.borderColor='var(--glass-border)'}>
-                 <div style={{ fontSize: '2.5rem', color: 'var(--accent-teal)', marginBottom: '1.5rem' }}>{feature.icon}</div>
+              <div key={i} className="glass-card" style={{ padding: isMobile ? '2rem' : '2.5rem', borderRadius: '24px', transition: '0.3s' }} onMouseEnter={e => e.currentTarget.style.borderColor='var(--accent-teal)'} onMouseLeave={e => e.currentTarget.style.borderColor='var(--glass-border)'}>
+                 <div style={{ fontSize: isMobile ? '2rem' : '2.5rem', color: 'var(--accent-teal)', marginBottom: '1.5rem' }}>{feature.icon}</div>
                  <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '1rem' }}>{feature.title}</h3>
                  <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6 }}>{feature.desc}</p>
               </div>
@@ -395,18 +406,18 @@ const Swap = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          style={{ marginTop: '10rem', width: '100%', maxWidth: '1000px', textAlign: 'center' }}
+          style={{ marginTop: isMobile ? '6rem' : '10rem', width: '100%', maxWidth: '1000px', textAlign: 'center', padding: isMobile ? '0 1.5rem' : '0' }}
         >
-          <h2 className="font-heading" style={{ fontSize: '3rem', marginBottom: '4rem' }}>How To Swap</h2>
-          <div style={{ display: 'flex', justifyContent: 'space-between', gap: '2rem', position: 'relative' }}>
-             <div style={{ position: 'absolute', top: '3rem', left: '10%', right: '10%', height: '1px', background: 'linear-gradient(90deg, transparent, var(--glass-border), transparent)', zIndex: 0 }} />
+          <h2 className="font-heading" style={{ fontSize: isMobile ? '2rem' : '3rem', marginBottom: isMobile ? '3rem' : '4rem' }}>How To Swap</h2>
+          <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', gap: '3rem', position: 'relative' }}>
+             {!isMobile && <div style={{ position: 'absolute', top: '3rem', left: '10%', right: '10%', height: '1px', background: 'linear-gradient(90deg, transparent, var(--glass-border), transparent)', zIndex: 0 }} />}
              {[
                { title: 'Connect Wallet', desc: 'Link your Vaultora or Web3 wallet securely.' },
                { title: 'Select Pair', desc: 'Choose the assets you wish to swap between.' },
                { title: 'Confirm Order', desc: 'Execute on-chain with zero-fee settlements.' }
              ].map((step, i) => (
                <div key={i} style={{ flex: 1, zIndex: 1 }}>
-                  <div style={{ width: '60px', height: '60px', borderRadius: '50%', background: 'var(--bg-surface)', border: '2px solid var(--accent-teal)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 2rem', fontWeight: 900, fontSize: '1.5rem', color: 'var(--accent-teal)', boxShadow: '0 0 20px rgba(0,245,212,0.2)' }}>
+                  <div style={{ width: '60px', height: '60px', borderRadius: '50%', background: 'var(--bg-surface)', border: '2px solid var(--accent-teal)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem', fontWeight: 900, fontSize: '1.5rem', color: 'var(--accent-teal)', boxShadow: '0 0 20px rgba(0,245,212,0.2)' }}>
                     {i + 1}
                   </div>
                   <h3 style={{ fontSize: '1.35rem', fontWeight: 800, marginBottom: '0.75rem' }}>{step.title}</h3>
@@ -422,12 +433,12 @@ const Swap = () => {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           style={{ 
-            marginTop: '12rem', 
-            marginBottom: '8rem',
-            width: '100%', 
+            marginTop: isMobile ? '6rem' : '12rem', 
+            marginBottom: isMobile ? '4rem' : '8rem',
+            width: isMobile ? 'calc(100% - 3rem)' : '100%', 
             maxWidth: '1200px', 
             background: 'linear-gradient(90deg, rgba(0,245,212,0.05), transparent, rgba(0,245,212,0.05))',
-            padding: '4rem',
+            padding: isMobile ? '3rem 1.5rem' : '4rem',
             borderRadius: '32px',
             border: '1px solid var(--glass-border)',
             display: 'flex',
@@ -436,11 +447,11 @@ const Swap = () => {
             textAlign: 'center'
           }}
         >
-          <h2 className="font-heading" style={{ fontSize: '2.5rem', marginBottom: '1.5rem' }}>Start Trading Elite Assets</h2>
-          <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', marginBottom: '2.5rem' }}>
+          <h2 className="font-heading" style={{ fontSize: isMobile ? '1.75rem' : '2.5rem', marginBottom: '1.5rem', lineHeight: 1.2 }}>Start Trading Elite Assets</h2>
+          <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', marginBottom: '2.5rem', fontSize: isMobile ? '0.9rem' : '1rem' }}>
             Experience the most advanced liquidity routing protocol in the DeFi ecosystem.
           </p>
-          <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="btn-primary" style={{ padding: '1.25rem 3rem' }}>Move to Swap Widget</button>
+          <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="btn-primary" style={{ padding: '1.25rem 3rem', width: isMobile ? '100' : 'auto' }}>Move to Swap Widget</button>
         </motion.div>
       </div>
 

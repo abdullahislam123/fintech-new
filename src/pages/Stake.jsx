@@ -25,32 +25,39 @@ const STAKING_POOLS = [
 ];
 
 const Stake = () => {
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 1024 : false);
   const [selectedPool, setSelectedPool] = useState(STAKING_POOLS[0]);
   const [amount, setAmount] = useState('');
 
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
-    <div className="stake-page" style={{ position: 'relative', minHeight: '100vh', padding: '10rem 4rem' }}>
+    <div className="stake-page" style={{ position: 'relative', minHeight: '100vh', padding: isMobile ? '8rem 1.5rem 4rem' : '10rem 4rem' }}>
       <AnimatedBackground />
 
       <main style={{ position: 'relative', zIndex: 1, maxWidth: '1400px', margin: '0 auto' }}>
-        <header style={{ marginBottom: '6rem' }}>
+        <header style={{ marginBottom: isMobile ? '3rem' : '6rem' }}>
           <motion.h1 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             className="font-heading" 
-            style={{ fontSize: '4.5rem', fontWeight: 900, color: 'white', marginBottom: '1.5rem', letterSpacing: '-3px' }}
+            style={{ fontSize: isMobile ? '2.5rem' : '4.5rem', fontWeight: 900, color: 'white', marginBottom: '1.5rem', letterSpacing: '-2px', lineHeight: 1.1 }}
           >
             Earn <span style={{ color: 'var(--accent-teal)' }}>Crypto.</span>
           </motion.h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '1.25rem', fontWeight: 600 }}>Grow your crypto with enterprise-grade validator infrastructure.</p>
+          <p style={{ color: 'var(--text-secondary)', fontSize: isMobile ? '1.1rem' : '1.25rem', fontWeight: 600 }}>Grow your crypto with enterprise-grade validator infrastructure.</p>
         </header>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '4rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.5fr 1fr', gap: isMobile ? '3rem' : '4rem' }}>
           <section>
-            <div className="glass-card" style={{ padding: '3rem', marginBottom: '3rem', background: 'rgba(5, 12, 17, 0.5)', backdropFilter: 'blur(40px)' }}>
-               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
-                 <h2 style={{ color: 'white', fontSize: '1.75rem', fontWeight: 900, letterSpacing: '-1px' }}>Available Protocol Vaults</h2>
-                 <div className="capsule-badge" style={{ color: 'var(--accent-teal)', borderColor: 'var(--accent-teal-soft)' }}>
+            <div className="glass-card" style={{ padding: isMobile ? '2rem' : '3rem', marginBottom: '3rem', background: 'rgba(5, 12, 17, 0.5)', backdropFilter: 'blur(40px)' }}>
+               <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', alignItems: isMobile ? 'flex-start' : 'center', marginBottom: isMobile ? '2rem' : '3rem', gap: '1.5rem' }}>
+                 <h2 style={{ color: 'white', fontSize: isMobile ? '1.5rem' : '1.75rem', fontWeight: 900, letterSpacing: '-1px' }}>Available Protocol Vaults</h2>
+                 <div className="capsule-badge" style={{ color: 'var(--accent-teal)', borderColor: 'var(--accent-teal-soft)', fontSize: '0.7rem' }}>
                    AUTO-COMPOUNDING ACTIVE
                  </div>
                </div>
@@ -59,10 +66,10 @@ const Stake = () => {
                  {STAKING_POOLS.map((pool) => (
                     <motion.div 
                       key={pool.id}
-                      whileHover={{ x: 10, background: 'rgba(255,255,255,0.03)' }}
+                      whileHover={isMobile ? {} : { x: 10, background: 'rgba(255,255,255,0.03)' }}
                       onClick={() => setSelectedPool(pool)}
                       style={{ 
-                        padding: '1.75rem', 
+                        padding: isMobile ? '1.25rem' : '1.75rem', 
                         borderRadius: '1.5rem', 
                         border: '1px solid var(--glass-border)',
                         background: selectedPool.id === pool.id ? 'rgba(0, 245, 212, 0.05)' : 'transparent',
@@ -74,16 +81,16 @@ const Stake = () => {
                         transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
                       }}
                     >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '1rem' : '2rem' }}>
                         <div style={{ 
-                          width: '56px', 
-                          height: '56px', 
+                          width: isMobile ? '40px' : '56px', 
+                          height: isMobile ? '40px' : '56px', 
                           background: pool.color,
-                          borderRadius: '16px',
+                          borderRadius: '12px',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          fontSize: '1.25rem',
+                          fontSize: isMobile ? '1rem' : '1.25rem',
                           color: 'white',
                           fontWeight: 900,
                           boxShadow: `0 0 30px ${pool.color}33`
@@ -91,20 +98,20 @@ const Stake = () => {
                           {pool.symbol[0]}
                         </div>
                         <div>
-                          <div style={{ color: 'white', fontWeight: 800, fontSize: '1.125rem' }}>{pool.name}</div>
-                          <div style={{ color: 'var(--text-muted)', fontSize: '0.875rem', fontWeight: 700 }}>TVL: ${pool.tvl} INJECTED</div>
+                          <div style={{ color: 'white', fontWeight: 800, fontSize: isMobile ? '0.9rem' : '1.125rem' }}>{pool.name}</div>
+                          <div style={{ color: 'var(--text-muted)', fontSize: '0.75rem', fontWeight: 700 }}>TVL: ${pool.tvl}</div>
                         </div>
                       </div>
                       <div style={{ textAlign: 'right' }}>
-                        <div style={{ color: 'var(--accent-teal)', fontWeight: 900, fontSize: '1.5rem' }}>{pool.apr}%</div>
-                        <div style={{ color: 'var(--text-muted)', fontSize: '0.75rem', fontWeight: 800 }}>EST. APR</div>
+                        <div style={{ color: 'var(--accent-teal)', fontWeight: 900, fontSize: isMobile ? '1.1rem' : '1.5rem' }}>{pool.apr}%</div>
+                        <div style={{ color: 'var(--text-muted)', fontSize: '0.65rem', fontWeight: 800 }}>EST. APR</div>
                       </div>
                     </motion.div>
                  ))}
                </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '1.5rem' }}>
               {[
                 { label: 'Total Staked', value: 890, suffix: 'M', icon: FaLock },
                 { label: 'Validators', value: 12400, suffix: '', icon: FaShieldHalved },
@@ -179,8 +186,8 @@ const Stake = () => {
           </aside>
         </div>
 
-        {/* Extra Content Sections - Consistent with site-wide master layout */}
-        <div style={{ marginTop: '12rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        {/* Extra Content Sections */}
+        <div style={{ marginTop: isMobile ? '6rem' : '12rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           
           {/* Staking Benefits Grid */}
           <motion.div 
@@ -190,16 +197,16 @@ const Stake = () => {
             transition={{ duration: 0.8 }}
             style={{ width: '100%', maxWidth: '1200px' }}
           >
-            <h2 className="font-heading" style={{ fontSize: '3rem', marginBottom: '4rem', textAlign: 'center' }}>Enterprise Security</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
+            <h2 className="font-heading" style={{ fontSize: isMobile ? '2rem' : '3rem', marginBottom: isMobile ? '2.5rem' : '4rem', textAlign: 'center', lineHeight: 1.2 }}>Enterprise Security</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
               {[
                 { icon: <FaShieldHalved />, title: 'Institutional Nodes', desc: 'Secure, low-latency validator infrastructure hosted in global tier-1 data centers.' },
                 { icon: <FaLock />, title: 'Non-Custodial', desc: 'Maintain full control of your private keys. Assets are locked in open-source smart contracts.' },
                 { icon: <FaArrowTrendUp />, title: 'Real-time Rewards', desc: 'Watch your assets grow in real-time with rewards distributed every block.' },
                 { icon: <FaBolt />, title: 'Instant Liquidity', desc: 'Receive Liquid Staking Tokens (LSTs) to maintain capital efficiency while earning.' }
               ].map((feature, i) => (
-                <div key={i} className="glass-card" style={{ padding: '2.5rem', borderRadius: '24px', transition: '0.3s' }} onMouseEnter={e => e.currentTarget.style.borderColor='var(--accent-teal)'} onMouseLeave={e => e.currentTarget.style.borderColor='var(--glass-border)'}>
-                   <div style={{ fontSize: '2.5rem', color: 'var(--accent-teal)', marginBottom: '1.5rem' }}>{feature.icon}</div>
+                <div key={i} className="glass-card" style={{ padding: isMobile ? '2rem' : '2.5rem', borderRadius: '24px', transition: '0.3s' }} onMouseEnter={e => e.currentTarget.style.borderColor='var(--accent-teal)'} onMouseLeave={e => e.currentTarget.style.borderColor='var(--glass-border)'}>
+                   <div style={{ fontSize: isMobile ? '2rem' : '2.5rem', color: 'var(--accent-teal)', marginBottom: '1.5rem' }}>{feature.icon}</div>
                    <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '1rem' }}>{feature.title}</h3>
                    <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6 }}>{feature.desc}</p>
                 </div>
@@ -213,18 +220,18 @@ const Stake = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            style={{ marginTop: '12rem', width: '100%', maxWidth: '1000px', textAlign: 'center' }}
+            style={{ marginTop: isMobile ? '6rem' : '12rem', width: '100%', maxWidth: '1000px', textAlign: 'center' }}
           >
-            <h2 className="font-heading" style={{ fontSize: '3rem', marginBottom: '4rem' }}>The Staking Process</h2>
-            <div style={{ display: 'flex', justifyContent: 'space-between', gap: '2rem', position: 'relative' }}>
-               <div style={{ position: 'absolute', top: '3rem', left: '10%', right: '10%', height: '1px', background: 'linear-gradient(90deg, transparent, var(--glass-border), transparent)', zIndex: 0 }} />
+            <h2 className="font-heading" style={{ fontSize: isMobile ? '2rem' : '3rem', marginBottom: isMobile ? '3rem' : '4rem' }}>The Staking Process</h2>
+            <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', gap: '3rem', position: 'relative' }}>
+               {!isMobile && <div style={{ position: 'absolute', top: '3rem', left: '10%', right: '10%', height: '1px', background: 'linear-gradient(90deg, transparent, var(--glass-border), transparent)', zIndex: 0 }} />}
                {[
                  { title: 'Select Network', desc: 'Choose a blockchain from the available protocol vaults.' },
                  { title: 'Deposit Tokens', desc: 'Allocate your assets into the high-yield staking contract.' },
                  { title: 'Earn Interest', desc: 'Accrue rewards with 100% automated protocol distribution.' }
                ].map((step, i) => (
                  <div key={i} style={{ flex: 1, zIndex: 1 }}>
-                    <div style={{ width: '60px', height: '60px', borderRadius: '50%', background: 'var(--bg-surface)', border: '2px solid var(--accent-teal)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 2rem', fontWeight: 900, fontSize: '1.5rem', color: 'var(--accent-teal)', boxShadow: '0 0 20px rgba(0,245,212,0.2)' }}>
+                    <div style={{ width: '60px', height: '60px', borderRadius: '50%', background: 'var(--bg-surface)', border: '2px solid var(--accent-teal)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem', fontWeight: 900, fontSize: '1.5rem', color: 'var(--accent-teal)', boxShadow: '0 0 20px rgba(0,245,212,0.2)' }}>
                       {i + 1}
                     </div>
                     <h3 style={{ fontSize: '1.35rem', fontWeight: 800, marginBottom: '0.75rem' }}>{step.title}</h3>
@@ -240,12 +247,12 @@ const Stake = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             style={{ 
-              marginTop: '12rem', 
-              marginBottom: '8rem',
-              width: '100%', 
+              marginTop: isMobile ? '6rem' : '12rem', 
+              marginBottom: '6rem',
+              width: isMobile ? 'calc(100% - 3rem)' : '100%', 
               maxWidth: '1200px', 
               background: 'linear-gradient(135deg, rgba(130, 71, 229, 0.05), transparent, rgba(0, 245, 212, 0.05))',
-              padding: '5rem',
+              padding: isMobile ? '3rem 1.5rem' : '5rem',
               borderRadius: '32px',
               border: '1px solid var(--glass-border)',
               display: 'flex',
@@ -254,11 +261,11 @@ const Stake = () => {
               textAlign: 'center'
             }}
           >
-            <h2 className="font-heading" style={{ fontSize: '2.5rem', marginBottom: '1.5rem' }}>Earn crypto today</h2>
-            <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', marginBottom: '3rem', fontSize: '1.1rem' }}>
+            <h2 className="font-heading" style={{ fontSize: isMobile ? '2rem' : '2.5rem', marginBottom: '1.5rem', lineHeight: 1.2 }}>Earn crypto today</h2>
+            <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', marginBottom: '3rem', fontSize: isMobile ? '0.95rem' : '1.1rem' }}>
               Join the largest institutional staking network. No minimums, no setup required. Grow your portfolio passively.
             </p>
-            <button onClick={() => window.scrollTo({ top: 300, behavior: 'smooth' })} className="btn-primary" style={{ padding: '1.25rem 3.5rem' }}>Select a Vault</button>
+            <button onClick={() => window.scrollTo({ top: isMobile ? 500 : 300, behavior: 'smooth' })} className="btn-primary" style={{ padding: '1.25rem 3.5rem', width: isMobile ? '100%' : 'auto', justifyContent: 'center' }}>Select a Vault</button>
           </motion.div>
         </div>
       </main>

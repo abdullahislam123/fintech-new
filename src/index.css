@@ -162,8 +162,74 @@ h1, h2, h3, h4, .font-heading {
   padding: 0 5%;
 }
 
+/* Mobile Responsive Optimization */
+@media (max-width: 1024px) {
+  :root {
+    --card-radius: 1.5rem;
+  }
+}
+
 @media (max-width: 768px) {
   .container {
-    padding: 0 2rem;
+    padding: 0 1.5rem;
+  }
+
+  .btn-primary {
+    padding: 0.875rem 1.75rem;
+    font-size: 0.95rem;
+  }
+
+  .glass-card {
+    padding: 1.5rem !important;
+  }
+
+  /* Typography Scaling */
+  h1, .font-heading-hero {
+    font-size: 2.75rem !important;
+    letter-spacing: -2px !important;
+  }
+
+  h2 {
+    font-size: 2rem !important;
+  }
+
+  h3 {
+    font-size: 1.5rem !important;
+  }
+
+  p {
+    font-size: 1rem !important;
+  }
+
+  /* Section Padding */
+  section {
+    padding-top: 5rem !important;
+    padding-bottom: 5rem !important;
+  }
+
+  /* Grid Helpers */
+  .mobile-stack {
+    flex-direction: column !important;
+    gap: 2rem !important;
+  }
+
+  .mobile-grid-1 {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  /* Navigation Padding Fix */
+  main, .page-wrapper {
+    padding-top: 8rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  h1, .font-heading-hero {
+    font-size: 2.25rem !important;
+  }
+
+  .container {
+    padding: 0 1.25rem;
   }
 }

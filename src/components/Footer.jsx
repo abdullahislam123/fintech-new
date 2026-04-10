@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from '../assets/favicon.svg';
 import { Link } from 'react-router-dom';
 import { 
@@ -16,6 +16,13 @@ import {
 import { motion } from 'framer-motion';
 
 const Footer = () => {
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 1024 : false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   const footerSections = [
     {
       title: 'SOLUTIONS',
@@ -67,18 +74,23 @@ const Footer = () => {
     <footer style={{ 
       background: 'rgba(2, 6, 9, 0.95)', 
       borderTop: '1px solid var(--glass-border)',
-      padding: '8rem 4rem 4rem',
+      padding: isMobile ? '4rem 1.5rem 3rem' : '8rem 4rem 4rem',
       position: 'relative',
       zIndex: 10,
       backdropFilter: 'blur(40px)'
     }}>
       <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1.5fr repeat(4, 1fr)', gap: '4rem', marginBottom: '6rem' }}>
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: isMobile ? '1fr' : '1.5fr repeat(4, 1fr)', 
+          gap: isMobile ? '3rem' : '4rem', 
+          marginBottom: isMobile ? '4rem' : '6rem' 
+        }}>
           {/* Brand & Newsletter */}
-          <div style={{ paddingRight: '2rem' }}>
+          <div style={{ paddingRight: isMobile ? '0' : '2rem' }}>
             <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
               <img src={logo} alt="Vaultora Logo" style={{ width: '42px', height: '42px', objectFit: 'cover', borderRadius: '50%', overflow: 'hidden' }} />
-              <div className="font-heading" style={{ fontSize: '2.5rem', fontWeight: 900, color: 'white', letterSpacing: '-1.5px' }}>
+              <div className="font-heading" style={{ fontSize: isMobile ? '2rem' : '2.5rem', fontWeight: 900, color: 'white', letterSpacing: '-1.5px' }}>
                 Vaultora<span style={{ color: 'var(--accent-teal)' }}>.</span>
               </div>
             </Link>
@@ -86,12 +98,14 @@ const Footer = () => {
               The definitive gateway to multi-chain liquidity. Elite-grade security for the global Web3 ecosystem.
             </p>
             
-            <div style={{ marginBottom: '2rem' }}>
-              <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                <div style={{ width: '10px', height: '10px', background: '#10b981', borderRadius: '50%', boxShadow: '0 0 10px #10b981' }}></div>
-                <span style={{ color: 'white', fontWeight: 800, fontSize: '0.75rem', letterSpacing: '1px' }}>ALL SYSTEMS OPERATIONAL</span>
+            {!isMobile && (
+              <div style={{ marginBottom: '2rem' }}>
+                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                  <div style={{ width: '100%', height: '10px', maxWidth: '10px', background: '#10b981', borderRadius: '50%', boxShadow: '0 0 10px #10b981' }}></div>
+                  <span style={{ color: 'white', fontWeight: 800, fontSize: '0.75rem', letterSpacing: '1px' }}>ALL SYSTEMS OPERATIONAL</span>
+                </div>
               </div>
-            </div>
+            )}
 
             <div className="glass-card" style={{ padding: '0.5rem', display: 'flex', gap: '0.5rem', borderRadius: '1rem', border: '1px solid var(--glass-border)', background: 'rgba(255,255,255,0.03)' }}>
               <input 
@@ -106,36 +120,44 @@ const Footer = () => {
           </div>
 
           {/* Nav Columns */}
-          {footerSections.map((section) => (
-            <div key={section.title}>
-              <h4 style={{ color: 'white', fontWeight: 900, fontSize: '0.8125rem', letterSpacing: '1.5px', marginBottom: '2rem', textTransform: 'uppercase' }}>
-                {section.title}
-              </h4>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                {section.links.map((link) => (
-                  <li key={link.name} style={{ marginBottom: '1rem' }}>
-                    <Link to={link.path} style={{ textDecoration: 'none', color: 'var(--text-secondary)', fontSize: '0.9375rem', fontWeight: 600, transition: 'var(--transition-smooth)' }}>
-                      <motion.span whileHover={{ x: 5, color: 'var(--accent-teal)' }} style={{ display: 'inline-block' }}>
-                        {link.name}
-                      </motion.span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', 
+            gap: isMobile ? '2.5rem' : '4rem',
+            gridColumn: isMobile ? 'span 1' : 'span 4'
+          }}>
+            {footerSections.map((section) => (
+              <div key={section.title}>
+                <h4 style={{ color: 'white', fontWeight: 900, fontSize: '0.75rem', letterSpacing: '1.5px', marginBottom: '1.5rem', textTransform: 'uppercase' }}>
+                  {section.title}
+                </h4>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                  {section.links.map((link) => (
+                    <li key={link.name} style={{ marginBottom: '0.75rem' }}>
+                      <Link to={link.path} style={{ textDecoration: 'none', color: 'var(--text-secondary)', fontSize: '0.875rem', fontWeight: 600, transition: 'var(--transition-smooth)' }}>
+                        <motion.span whileHover={{ x: 5, color: 'var(--accent-teal)' }} style={{ display: 'inline-block' }}>
+                          {link.name}
+                        </motion.span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Bottom Bar */}
         <div style={{ 
-          pt: '4rem', 
           borderTop: '1px solid var(--glass-border)', 
           paddingTop: '3rem',
           display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'center' 
+          flexDirection: isMobile ? 'column' : 'row',
+          justifyContent: isMobile ? 'center' : 'space-between', 
+          alignItems: isMobile ? 'center' : 'center',
+          gap: isMobile ? '2.5rem' : '0'
         }}>
-          <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+          <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? '1.5rem' : '2rem', alignItems: 'center', textAlign: isMobile ? 'center' : 'left' }}>
             <span style={{ color: 'var(--text-muted)', fontSize: '0.8125rem', fontWeight: 600 }}>© 2026 Vaultora Protocol Labs Ltd.</span>
             <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
               <motion.div whileHover={{ scale: 1.2, color: 'var(--accent-teal)' }} style={{ cursor: 'pointer', color: 'var(--text-secondary)' }}><FaXTwitter size={18} /></motion.div>
@@ -145,7 +167,7 @@ const Footer = () => {
             </div>
           </div>
           
-          <div style={{ display: 'flex', gap: '3rem', alignItems: 'center' }}>
+          <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? '1.5rem' : '3rem', alignItems: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-secondary)', fontSize: '0.8125rem', fontWeight: 800 }}>
               <FaGlobe size={14} /> English (US)
             </div>

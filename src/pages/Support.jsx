@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaHeadset, FaBook, FaShieldHalved, FaChevronDown, FaEnvelope, FaDiscord, FaXTwitter, FaArrowRight } from 'react-icons/fa6';
 import AnimatedBackground from '../components/AnimatedBackground';
@@ -13,7 +13,7 @@ const faqData = [
   { q: "What are gas fees?", a: "Gas fees are the costs paid to blockchain validators for processing your transactions. Vaultora provides real-time gas estimates and allows you to customize gas settings for faster or cheaper transactions." },
 ];
 
-const FAQItem = ({ item, index }) => {
+const FAQItem = ({ item, index, isMobile }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -28,12 +28,12 @@ const FAQItem = ({ item, index }) => {
         onClick={() => setOpen(!open)}
         style={{
           width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-          padding: '2rem 0', background: 'none', border: 'none', color: 'white',
-          fontSize: '1.15rem', fontWeight: 700, cursor: 'pointer', textAlign: 'left', gap: '2rem'
+          padding: isMobile ? '1.5rem 0' : '2rem 0', background: 'none', border: 'none', color: 'white',
+          fontSize: isMobile ? '1.05rem' : '1.15rem', fontWeight: 700, cursor: 'pointer', textAlign: 'left', gap: '1.5rem'
         }}
       >
         {item.q}
-        <motion.div animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.3 }}>
+        <motion.div animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.3 }} style={{ flexShrink: 0 }}>
           <FaChevronDown size={14} color="var(--accent-teal)" />
         </motion.div>
       </button>
@@ -46,7 +46,7 @@ const FAQItem = ({ item, index }) => {
             transition={{ duration: 0.3 }}
             style={{ overflow: 'hidden' }}
           >
-            <p style={{ color: 'var(--text-secondary)', lineHeight: 1.7, paddingBottom: '2rem', fontSize: '1.05rem' }}>
+            <p style={{ color: 'var(--text-secondary)', lineHeight: 1.7, paddingBottom: isMobile ? '1.5rem' : '2rem', fontSize: isMobile ? '0.95rem' : '1.05rem' }}>
               {item.a}
             </p>
           </motion.div>
@@ -56,31 +56,39 @@ const FAQItem = ({ item, index }) => {
   );
 };
 
+
 const Support = () => {
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 1024 : false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   return (
-    <div style={{ minHeight: '100vh', paddingTop: '10rem', position: 'relative' }}>
+    <div style={{ minHeight: '100vh', paddingTop: isMobile ? '7rem' : '10rem', position: 'relative' }}>
       <AnimatedBackground />
-      <main style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1, padding: '0 2rem 10rem 2rem' }}>
+      <main style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1, padding: isMobile ? '0 1.5rem 6rem 1.5rem' : '0 2rem 10rem 2rem' }}>
 
         {/* Hero */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          style={{ textAlign: 'center', marginBottom: '6rem' }}
+          style={{ textAlign: 'center', marginBottom: isMobile ? '4rem' : '6rem' }}
         >
-          <div style={{ display: 'inline-block', padding: '0.5rem 1.5rem', borderRadius: '100px', border: '1px solid var(--accent-teal-soft)', background: 'rgba(0, 245, 212, 0.05)', color: 'var(--accent-teal)', fontWeight: 800, fontSize: '0.875rem', marginBottom: '2rem', letterSpacing: '2px' }}>
+          <div style={{ display: 'inline-block', padding: '0.4rem 1.25rem', borderRadius: '100px', border: '1px solid var(--accent-teal-soft)', background: 'rgba(0, 245, 212, 0.05)', color: 'var(--accent-teal)', fontWeight: 800, fontSize: '0.75rem', marginBottom: '1.5rem', letterSpacing: '2px' }}>
             HELP CENTER
           </div>
-          <h1 className="font-heading" style={{ fontSize: '4.5rem', fontWeight: 900, marginBottom: '1.5rem', letterSpacing: '-3px' }}>
+          <h1 className="font-heading" style={{ fontSize: isMobile ? '2.5rem' : '4.5rem', fontWeight: 900, marginBottom: '1.5rem', letterSpacing: '-2px', lineHeight: 1.1 }}>
             How can we <span style={{ color: 'var(--accent-teal)' }}>help?</span>
           </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '1.25rem', maxWidth: '650px', margin: '0 auto', lineHeight: 1.6 }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: isMobile ? '1.05rem' : '1.25rem', maxWidth: '650px', margin: '0 auto', lineHeight: 1.6 }}>
             Browse our knowledge base, explore FAQs, or reach out to our dedicated support team — we're here around the clock.
           </p>
         </motion.div>
 
         {/* Support Channels Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem', marginBottom: '8rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '1.5rem', marginBottom: isMobile ? '6rem' : '8rem' }}>
           {[
             { icon: <FaHeadset size={28} />, title: "Live Chat", desc: "Get real-time help from our support team. Average response under 2 minutes.", cta: "Start Chat" },
             { icon: <FaBook size={28} />, title: "Knowledge Base", desc: "Step-by-step guides, tutorials, and troubleshooting articles covering every feature.", cta: "Browse Articles" },
@@ -92,16 +100,16 @@ const Support = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              whileHover={{ y: -8, borderColor: 'var(--accent-teal-soft)' }}
+              whileHover={isMobile ? {} : { y: -8, borderColor: 'var(--accent-teal-soft)' }}
               className="glass-card"
-              style={{ padding: '3rem 2.5rem', borderRadius: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem', cursor: 'pointer', transition: 'border-color 0.3s' }}
+              style={{ padding: isMobile ? '2.5rem 1.5rem' : '3rem 2.5rem', borderRadius: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem', cursor: 'pointer', transition: 'border-color 0.3s' }}
             >
               <div style={{ width: '56px', height: '56px', borderRadius: '1rem', background: 'rgba(0,245,212,0.08)', border: '1px solid rgba(0,245,212,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent-teal)' }}>
                 {card.icon}
               </div>
-              <h3 style={{ color: 'white', fontSize: '1.5rem', fontWeight: 900, letterSpacing: '-0.5px' }}>{card.title}</h3>
-              <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6, fontSize: '1.05rem', flex: 1 }}>{card.desc}</p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'var(--accent-teal)', fontWeight: 800, fontSize: '0.95rem' }}>
+              <h3 style={{ color: 'white', fontSize: isMobile ? '1.35rem' : '1.5rem', fontWeight: 900, letterSpacing: '-0.5px' }}>{card.title}</h3>
+              <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6, fontSize: isMobile ? '0.95rem' : '1.05rem', flex: 1 }}>{card.desc}</p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'var(--accent-teal)', fontWeight: 800, fontSize: '0.9rem' }}>
                 {card.cta} <FaArrowRight size={14} />
               </div>
             </motion.div>
@@ -113,14 +121,14 @@ const Support = () => {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          style={{ marginBottom: '8rem' }}
+          style={{ marginBottom: isMobile ? '6rem' : '8rem' }}
         >
-          <h2 className="font-heading" style={{ fontSize: '3rem', fontWeight: 900, letterSpacing: '-2px', marginBottom: '3rem' }}>
+          <h2 className="font-heading" style={{ fontSize: isMobile ? '2rem' : '3rem', fontWeight: 900, letterSpacing: '-2px', marginBottom: isMobile ? '2rem' : '3rem' }}>
             Frequently Asked<span style={{ color: 'var(--accent-teal)' }}>.</span>
           </h2>
-          <div className="glass-card" style={{ padding: '1rem 3rem', borderRadius: '1.5rem' }}>
+          <div className="glass-card" style={{ padding: isMobile ? '0 1.5rem' : '1rem 3rem', borderRadius: '1.5rem' }}>
             {faqData.map((item, i) => (
-              <FAQItem key={i} item={item} index={i} />
+              <FAQItem key={i} item={item} index={i} isMobile={isMobile} />
             ))}
           </div>
         </motion.div>
@@ -131,23 +139,25 @@ const Support = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="glass-card"
-          style={{ padding: '4rem', borderRadius: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '2rem', background: 'linear-gradient(135deg, rgba(0,245,212,0.06), rgba(5,12,17,0.9))', border: '1px solid var(--accent-teal-soft)' }}
+          style={{ padding: isMobile ? '3rem 1.5rem' : '4rem', borderRadius: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: isMobile ? 'flex-start' : 'center', flexDirection: isMobile ? 'column' : 'row', gap: '2.5rem', background: 'linear-gradient(135deg, rgba(0,245,212,0.06), rgba(5,12,17,0.9))', border: '1px solid var(--accent-teal-soft)' }}
         >
           <div style={{ maxWidth: '500px' }}>
-            <h3 style={{ fontSize: '2rem', fontWeight: 900, color: 'white', marginBottom: '1rem', letterSpacing: '-1px' }}>Still need help?</h3>
-            <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6 }}>Our enterprise support team is available 24/7 with guaranteed SLA response times for business accounts.</p>
+            <h3 style={{ fontSize: isMobile ? '1.75rem' : '2rem', fontWeight: 900, color: 'white', marginBottom: '1rem', letterSpacing: '-1px' }}>Still need help?</h3>
+            <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6, fontSize: isMobile ? '0.95rem' : '1rem' }}>Our enterprise support team is available 24/7 with guaranteed SLA response times for business accounts.</p>
           </div>
-          <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-            <motion.a whileHover={{ scale: 1.1 }} href="mailto:support@vaultora.io" style={{ width: '56px', height: '56px', borderRadius: '50%', background: 'rgba(0,245,212,0.1)', border: '1px solid var(--accent-teal-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent-teal)' }}>
-              <FaEnvelope size={22} />
-            </motion.a>
-            <motion.a whileHover={{ scale: 1.1 }} href="#" style={{ width: '56px', height: '56px', borderRadius: '50%', background: 'rgba(0,245,212,0.1)', border: '1px solid var(--accent-teal-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent-teal)' }}>
-              <FaDiscord size={22} />
-            </motion.a>
-            <motion.a whileHover={{ scale: 1.1 }} href="#" style={{ width: '56px', height: '56px', borderRadius: '50%', background: 'rgba(0,245,212,0.1)', border: '1px solid var(--accent-teal-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent-teal)' }}>
-              <FaXTwitter size={22} />
-            </motion.a>
-            <button className="btn-primary teal-glow" style={{ padding: '1rem 2.5rem', fontSize: '1rem' }}>
+          <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? '2rem' : '1.5rem', alignItems: isMobile ? 'flex-start' : 'center', width: isMobile ? '100' : 'auto' }}>
+            <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center' }}>
+              <motion.a whileHover={{ scale: 1.1 }} href="mailto:support@vaultora.io" style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(0,245,212,0.1)', border: '1px solid var(--accent-teal-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent-teal)' }}>
+                <FaEnvelope size={20} />
+              </motion.a>
+              <motion.a whileHover={{ scale: 1.1 }} href="#" style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(0,245,212,0.1)', border: '1px solid var(--accent-teal-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent-teal)' }}>
+                <FaDiscord size={20} />
+              </motion.a>
+              <motion.a whileHover={{ scale: 1.1 }} href="#" style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(0,245,212,0.1)', border: '1px solid var(--accent-teal-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent-teal)' }}>
+                <FaXTwitter size={20} />
+              </motion.a>
+            </div>
+            <button className="btn-primary teal-glow" style={{ padding: '1rem 2.5rem', fontSize: '0.95rem', width: isMobile ? '100' : 'auto', justifyContent: 'center' }}>
               Contact Sales
             </button>
           </div>
