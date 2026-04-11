@@ -9,7 +9,6 @@ import {
 import { Link } from 'react-router-dom';
 import { fetchTopCoins } from '../services/coinService';
 import AnimatedBackground from '../components/AnimatedBackground';
-import Footer from '../components/Footer';
 
 const Market = () => {
   const [coins, setCoins] = useState([]);
@@ -228,7 +227,6 @@ const Market = () => {
         </div>
       </main>
 
-      <Footer />
 
       <style>{`
         @keyframes spin {

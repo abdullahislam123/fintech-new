@@ -30,7 +30,6 @@ import {
 import ProtocolMockup from '../components/ProtocolMockup';
 import AnimatedBackground from '../components/AnimatedBackground';
 import SecurityBadge from '../components/SecurityBadge';
-import Footer from '../components/Footer';
 import { fetchCoinPrices } from '../services/coinService';
 import StatCounter from '../components/StatCounter';
 
@@ -288,7 +287,6 @@ const Home = () => {
          </div>
       </section>
 
-      <Footer />
     </div>
   );
 };

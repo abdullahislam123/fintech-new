@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Topbar from './Topbar';
+import Footer from './Footer';
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -17,7 +18,7 @@ const Layout = ({ children }) => {
         width: '100%'
       }}>
         <Topbar />
-        <main style={{ padding: '0', flex: 1 }}>
+        <main style={{ padding: '0', flex: 1, display: 'flex', flexDirection: 'column' }}>
           <AnimatePresence mode="wait">
             <motion.div
               key={location.key}
@@ -25,11 +26,13 @@ const Layout = ({ children }) => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
+              style={{ flex: 1, display: 'flex', flexDirection: 'column' }}
             >
               {children}
             </motion.div>
           </AnimatePresence>
         </main>
+        <Footer />
       </div>
     </div>
   );

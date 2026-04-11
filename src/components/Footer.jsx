@@ -74,7 +74,7 @@ const Footer = () => {
     <footer style={{ 
       background: 'rgba(2, 6, 9, 0.95)', 
       borderTop: '1px solid var(--glass-border)',
-      padding: isMobile ? '4rem 1.5rem 3rem' : '8rem 4rem 4rem',
+      padding: isMobile ? '4rem 1.5rem 0.5rem' : '8rem 4rem 0.5rem',
       position: 'relative',
       zIndex: 10,
       backdropFilter: 'blur(40px)'

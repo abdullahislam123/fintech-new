@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaHeadset, FaBook, FaShieldHalved, FaChevronDown, FaEnvelope, FaDiscord, FaXTwitter, FaArrowRight } from 'react-icons/fa6';
 import AnimatedBackground from '../components/AnimatedBackground';
-import Footer from '../components/Footer';
 
 const faqData = [
   { q: "How do I create a Vaultora wallet?", a: "Download the Vaultora extension for Chrome or Firefox, click 'Create New Wallet', and follow the on-screen instructions. You'll receive a 12-word seed phrase — store it securely offline. This phrase is the only way to recover your wallet." },
@@ -164,7 +163,6 @@ const Support = () => {
         </motion.div>
 
       </main>
-      <Footer />
     </div>
   );
 };
