@@ -25,6 +25,7 @@ import Community from './pages/Community';
 import GenericPage from './pages/GenericPage';
 import Support from './pages/Support';
 import Careers from './pages/Careers';
+import Market from './pages/Market';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -53,6 +54,7 @@ function App() {
             <Route path="/vmi" element={<Elite />} />
             <Route path="/download" element={<Download />} />
             <Route path="/resources" element={<Resources />} />
+            <Route path="/market" element={<Market />} />
             
             {/* Individual Feature Pages */}
             <Route path="/card-benefits" element={<CardBenefits />} />

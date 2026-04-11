@@ -78,7 +78,9 @@ const MarketLeaderboard = () => {
             <h2 className="font-heading" style={{ fontSize: isMobile ? '2.5rem' : '3.5rem', fontWeight: 900, color: 'white', marginBottom: '1.5rem', letterSpacing: '-2px', lineHeight: 1.1 }}>Live Market Analysis<span style={{ color: 'var(--accent-teal)' }}>.</span></h2>
             <p style={{ color: 'var(--text-secondary)', fontSize: isMobile ? '1.1rem' : '1.25rem', fontWeight: 500 }}>Real-time Elite liquidity feeds from global exchanges.</p>
           </div>
-          <button className="glass-card" style={{ padding: '1rem 2rem', borderRadius: 'var(--pill-radius)', border: '1px solid var(--glass-border)', color: 'white', fontWeight: 800, fontSize: '0.875rem', cursor: 'pointer', width: isMobile ? '100%' : 'auto' }}>View Full Market</button>
+          <Link to="/market" style={{ textDecoration: 'none', width: isMobile ? '100%' : 'auto' }}>
+            <button className="glass-card" style={{ padding: '1rem 2rem', borderRadius: 'var(--pill-radius)', border: '1px solid var(--glass-border)', color: 'white', fontWeight: 800, fontSize: '0.875rem', cursor: 'pointer', width: '100%' }}>View Full Market</button>
+          </Link>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.5rem' }}>
